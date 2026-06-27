@@ -1,0 +1,44 @@
+# Angular + Tailwind CSS v4 Development Rules
+
+## 1. Stack Tecnológico
+*   **Framework:** Angular (Última versión con componentes Standalone).
+*   **Estilos:** Tailwind CSS v4.
+*   **Lenguaje:** TypeScript (Tipado estricto habilitado).
+*   **Reactividad:** Usar Angular Signals (`signal`, `computed`, `effect`) para el manejo del estado del prototipo.
+*   **Inyección de Dependencias:** Utilizar la función `inject()` en lugar de la inyección por constructor clásica.
+
+## 2. Estructura de Carpetas
+El proyecto se organizará dentro de `src/app/` de la siguiente manera:
+```
+src/app/
+├── core/                  # Recursos globales de instancia única (Singleton)
+│   ├── auth/              # Autenticación (guards, interceptors, services)
+│   ├── http/              # Clientes HTTP base, manejo de errores global
+│   └── services/          # Servicios de infraestructura globales (Theme, Tenant, etc.)
+├── shared/                # Recursos reutilizables sin estado global (UI tonta)
+│   ├── components/        # Componentes UI (Botones, Inputs, Spinners)
+│   ├── directives/        # Directivas de comportamiento comunes
+│   └── pipes/             # Transformadores de datos comunes (Moneda, Fecha)
+├── features/              # Módulos o dominios funcionales (Lazy-loaded)
+│   ├── vehicles/          # Catálogo, Detalle, ABMC de Vehículos (con sus mockData/models/services)
+│   ├── dealerships/       # Gestión de Concesionarias
+│   └── dashboard/         # Estadísticas y métricas administrativas
+└── layouts/               # Layouts reutilizables (público, administración, login)
+```
+
+## 3. Convenciones de Código
+*   **Idioma:** Código (nombres de variables, clases, funciones, componentes) en **Inglés**. UI visible, textos y comentarios en **Español**.
+*   **Componentes:** Standalone por defecto (`standalone: true`).
+*   **Estilo CSS:** Utilizar clases de Tailwind CSS v4 en las plantillas HTML. Evitar estilos CSS en línea o en archivos `.css` individuales a menos que sea sumamente necesario (ej: animaciones personalizadas muy complejas).
+
+## 4. Diseño y UX (Premium & Moderno)
+*   **Paleta de colores:** Tonos grises sofisticados (slate/zinc), acentos de color modernos (violet/indigo o emerald) y fondos con efecto de vidrio (glassmorphism/backdrop-blur).
+*   **Mobile-First:** La web debe ser 100% responsiva y optimizada para pantallas táctiles de celulares.
+*   **Transiciones:** Animaciones suaves en los botones, filtros dinámicos y cambios de vista.
+
+## 5. Flujo de Desarrollo del Prototipo
+1.  **Fase 1:** Inicialización del proyecto Angular y configuración de Tailwind CSS v4.
+2.  **Fase 2:** Definición del Modelo de datos (`Car`) y creación del Servicio de mock de datos con Signals (CRUD reactivo en memoria).
+3.  **Fase 3:** Desarrollo de la Vista del Cliente (Landing/Catálogo responsivo + Filtros rápidos + Detalle con simulación de consulta WhatsApp).
+4.  **Fase 4:** Desarrollo de la Vista del Administrador (Dashboard con listado + Formulario visual para añadir/editar/eliminar autos).
+5.  **Fase 5:** Creación de la propuesta comercial formal (documento PDF/Markdown).
