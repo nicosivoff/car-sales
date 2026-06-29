@@ -33,27 +33,21 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
           <p class="text-xs text-brand-text-muted mt-1">Gestioná el inventario de la concesionaria, modificá precios y publicá nuevos vehículos.</p>
         </div>
 
-        <!-- KPI Cards (Ocultado) -->
-        @if (false) {
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Total Vehículos</span>
-              <div class="text-2xl font-black text-brand-dark">{{ totalVehicles() }}</div>
-            </div>
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span class="text-[10px] font-bold text-emerald-500 uppercase tracking-wider block mb-1">En Venta (Disponibles)</span>
-              <div class="text-2xl font-black text-brand-dark">{{ availableVehicles() }}</div>
-            </div>
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span class="text-[10px] font-bold text-indigo-500 uppercase tracking-wider block mb-1 font-display">Seminuevos y Usados</span>
-              <div class="text-2xl font-black text-brand-dark">{{ totalUsados() }}</div>
-            </div>
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span class="text-[10px] font-bold text-brand-error uppercase tracking-wider block mb-1">Vendidos</span>
-              <div class="text-2xl font-black text-brand-dark">{{ totalSold() }}</div>
-            </div>
+        <!-- KPI Cards -->
+        <div class="hidden md:grid grid-cols-3 gap-4 mb-8">
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Total Vehículos</span>
+            <div class="text-2xl font-black text-brand-dark">{{ totalVehicles() }}</div>
           </div>
-        }
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <span class="text-[10px] font-bold text-emerald-500 uppercase tracking-wider block mb-1">En Venta (Disponibles)</span>
+            <div class="text-2xl font-black text-brand-dark">{{ availableVehicles() }}</div>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <span class="text-[10px] font-bold text-brand-error uppercase tracking-wider block mb-1">Vendidos</span>
+            <div class="text-2xl font-black text-brand-dark">{{ totalSold() }}</div>
+          </div>
+        </div>
 
         <!-- Inventario List (Table) -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
@@ -73,60 +67,37 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
             </div>
           </div>
 
-          <!-- Filtros Rápidos (Ocultado) -->
-          @if (false) {
-            <div class="px-6 py-3 bg-slate-50/50 border-b border-slate-200 flex flex-wrap gap-2 items-center">
-              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-2">Filtros rápidos:</span>
-              <button 
-                (click)="activeQuickFilter.set('all')"
-                [ngClass]="activeQuickFilter() === 'all' ? 'bg-brand-primary text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
-                class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
-              >
-                Todos
-              </button>
-              <button 
-                (click)="activeQuickFilter.set('available')"
-                [ngClass]="activeQuickFilter() === 'available' ? 'bg-emerald-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
-                class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
-              >
-                Disponibles
-              </button>
-              <button 
-                (click)="activeQuickFilter.set('sold')"
-                [ngClass]="activeQuickFilter() === 'sold' ? 'bg-rose-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
-                class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
-              >
-                Vendidos
-              </button>
-              <button 
-                (click)="activeQuickFilter.set('new')"
-                [ngClass]="activeQuickFilter() === 'new' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
-                class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
-              >
-                Nuevos (0km)
-              </button>
-              <button 
-                (click)="activeQuickFilter.set('used')"
-                [ngClass]="activeQuickFilter() === 'used' ? 'bg-amber-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
-                class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
-              >
-                Usados
-              </button>
-              <button 
-                (click)="activeQuickFilter.set('featured')"
-                [ngClass]="activeQuickFilter() === 'featured' ? 'bg-blue-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
-                class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
-              >
-                Destacados
-              </button>
-            </div>
-          }
+          <!-- Filtros Rápidos -->
+          <div class="hidden md:flex px-6 py-3 bg-slate-50/50 border-b border-slate-200 flex-wrap gap-2 items-center">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-2">Filtros rápidos:</span>
+            <button 
+              (click)="activeQuickFilter.set('all')"
+              [ngClass]="activeQuickFilter() === 'all' ? 'bg-brand-primary text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+              class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
+            >
+              Todos
+            </button>
+            <button 
+              (click)="activeQuickFilter.set('new')"
+              [ngClass]="activeQuickFilter() === 'new' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+              class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
+            >
+              Nuevos (0km)
+            </button>
+            <button 
+              (click)="activeQuickFilter.set('used')"
+              [ngClass]="activeQuickFilter() === 'used' ? 'bg-amber-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+              class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
+            >
+              Usados
+            </button>
+          </div>
 
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">
               <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider select-none">
-                  <th class="p-4">Acciones</th>
+                  <th class="p-4 md:hidden">Acciones</th>
                   <th class="p-4">Vehículo</th>
                   <th 
                     (click)="toggleSort('year')"
@@ -169,12 +140,13 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
                   </th>
                   <th class="p-4">Especificaciones</th>
                   <th class="p-4">Estado</th>
+                  <th class="p-4 text-center hidden md:table-cell">Acciones</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100">
                 @for (car of filteredList(); track car.id) {
                   <tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="p-2 w-12 text-center">
+                    <td class="p-2 w-12 text-center md:hidden">
                       <div class="flex flex-col gap-0.5 items-center justify-center">
                         <button
                           (click)="openEditModal(car)"
@@ -193,9 +165,14 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
                       </div>
                     </td>
                     <td class="p-4">
-                      <div>
-                        <p class="font-bold text-brand-dark">{{ car.brand }} {{ car.model }}</p>
-                        <span class="text-[10px] text-slate-400 block mt-0.5">ID: {{ car.id }}</span>
+                      <div class="flex items-center gap-3">
+                        <div class="hidden md:block w-12 h-9 rounded-md overflow-hidden bg-slate-100 flex-shrink-0">
+                          <img [src]="car.images[0] || 'assets/placeholder-car.jpg'" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                          <p class="font-bold text-brand-dark">{{ car.brand }} {{ car.model }}</p>
+                          <span class="text-[10px] text-slate-400 block mt-0.5">ID: {{ car.id }}</span>
+                        </div>
                       </div>
                     </td>
                     <td class="p-4 font-semibold text-slate-700">{{ car.year }}</td>
@@ -221,7 +198,24 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
                         {{ car.isSold ? 'Vendido' : 'Disponible' }}
                       </button>
                     </td>
-                  </tr>
+                    <td class="p-2 w-12 text-center hidden md:table-cell">
+                      <div class="flex flex-col gap-0.5 items-center justify-center">
+                        <button
+                          (click)="openEditModal(car)"
+                          class="p-1 text-slate-400 hover:text-brand-primary hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                          title="Editar vehículo"
+                        >
+                          <span class="material-symbols-outlined text-sm">edit</span>
+                        </button>
+                        <button
+                          (click)="deleteVehicle(car.id)"
+                          class="p-1 text-slate-400 hover:text-brand-error hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+                          title="Eliminar vehículo"
+                        >
+                          <span class="material-symbols-outlined text-sm">delete</span>
+                        </button>
+                      </div>
+                    </td>
                 } @empty {
                   <tr>
                     <td colspan="7" class="text-center py-12 text-slate-400">
@@ -509,6 +503,14 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
           </div>
         </div>
       }
+
+      <!-- Premium Toast Notification -->
+      @if (showToast()) {
+        <div class="fixed top-20 left-1/2 -translate-x-1/2 z-100 bg-emerald-600 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2 border border-emerald-500/20 animate-fade-in select-none">
+          <span class="material-symbols-outlined text-sm font-bold">check_circle</span>
+          <span class="font-bold text-[11px] tracking-wide">{{ toastMessage() }}</span>
+        </div>
+      }
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -537,6 +539,18 @@ export class DashboardComponent {
   readonly confirmTitle = signal('');
   readonly confirmMessage = signal('');
   readonly confirmAction = signal<(() => void) | null>(null);
+
+  // Success Toast Notification State
+  readonly showToast = signal(false);
+  readonly toastMessage = signal('');
+
+  showToastNotification(message: string): void {
+    this.toastMessage.set(message);
+    this.showToast.set(true);
+    setTimeout(() => {
+      this.showToast.set(false);
+    }, 3000);
+  }
 
   // Form State
   formData = {
@@ -679,10 +693,12 @@ export class DashboardComponent {
 
     if (this.modalMode() === 'add') {
       this.vehicleService.addVehicle(vehicleData);
+      this.showToastNotification('¡Vehículo publicado con éxito!');
     } else {
       const id = this.selectedVehicleId();
       if (id) {
         this.vehicleService.updateVehicle(id, vehicleData);
+        this.showToastNotification('¡Cambios guardados con éxito!');
       }
     }
     this.closeModal();
@@ -739,6 +755,7 @@ export class DashboardComponent {
 
   toggleSoldStatus(vehicle: Vehicle): void {
     this.vehicleService.updateVehicle(vehicle.id, { isSold: !vehicle.isSold });
+    this.showToastNotification(`¡Estado de venta actualizado a ${!vehicle.isSold ? 'Vendido' : 'Disponible'}!`);
   }
 
   deleteVehicle(id: string): void {
@@ -747,6 +764,7 @@ export class DashboardComponent {
     this.confirmAction.set(() => {
       this.vehicleService.deleteVehicle(id);
       this.closeConfirm();
+      this.showToastNotification('¡Vehículo eliminado con éxito!');
     });
     this.isConfirmOpen.set(true);
   }

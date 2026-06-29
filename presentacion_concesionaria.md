@@ -1,4 +1,4 @@
-# Presentación Visual: Funcionamiento de la Web de Concesionaria
+# 🚗 Plataforma Web de Concesionaria LUXEMOTORS
 
 Esta presentación detalla la experiencia del usuario y las funcionalidades clave de la plataforma web de la concesionaria, incluyendo la navegación del cliente, la búsqueda filtrada y la carga de inventario desde el panel de administración.
 
@@ -12,14 +12,34 @@ A continuación puedes ver un recorrido continuo que muestra el flujo completo: 
 
 ---
 
+## 📂 Arquitectura de Navegación
+
+```mermaid
+graph TD
+    A["🌐 Cliente - Página de Inicio"] --> B["🔍 Catálogo General"]
+    A --> C["💰 Planes de Financiación"]
+    B --> D["📄 Ficha de Detalle de Vehículo"]
+    D --> E["⚡ Comparador de Vehículos"]
+    D --> F["💬 Consulta Directa por WhatsApp"]
+    
+    G["🔑 Operador - Panel de Admin"] --> H["📊 Listado de Inventario Activo"]
+    H --> I["🔄 Ordenamiento Asc/Desc (Año, Km, Precio)"]
+    H --> J["➕ Creación de Publicación (Drag & Drop)"]
+    H --> K["✏️ Modificación/Baja de Publicación"]
+```
+
+---
+
 ## 📂 Secciones de la Plataforma
 
 ### 1. Página de Inicio (Landing Page)
 La pantalla de bienvenida presenta la identidad de la concesionaria con un diseño limpio, moderno y orientado a la conversión.
-* **Características:**
-  * Banner principal ("Hero Section") llamativo.
-  * Accesos rápidos para explorar el catálogo completo.
-  * Sección destacada con atajos o tags de búsqueda popular.
+
+> [!NOTE]
+> **Detalles de la Sección:**
+> * **Hero Section:** Banner principal con eslogan de marca llamativo y botón de acción directa.
+> * **Nuestros Autos (Destacados):** Galería con carrusel deslizable infinito en celulares y grilla responsive en computadoras.
+> * **Planes de Financiación:** Tarjetas reorganizadas verticalmente en celulares (`h-[72px]`) para encajar en una sola pantalla.
 
 ![Página de Inicio](file:///C:/Users/solsi/.gemini/antigravity-ide/brain/4577d16f-9458-42cf-ba98-75088c144bd3/home_page_1782742590953.png)
 
@@ -27,41 +47,38 @@ La pantalla de bienvenida presenta la identidad de la concesionaria con un dise�
 
 ### 2. Catálogo e Interacción con Filtros
 La sección de catálogo permite a los usuarios buscar eficientemente entre los vehículos disponibles.
-* **Características:**
-  * **Barra de Búsqueda:** Búsqueda en tiempo real por texto (por ejemplo, buscando "Volkswagen").
-  * **Filtros por Atributos:** Permite refinar la lista por marca, precio, kilometraje y tipo de vehículo.
-  * **Restablecer Filtros:** Botón rápido para limpiar todas las opciones y volver al catálogo completo.
+
+> [!TIP]
+> **Filtros Avanzados:**
+> * **Barra de Búsqueda:** Búsqueda en tiempo real por texto (por ejemplo, "Volkswagen").
+> * **Rango de Precios Desplazable:** Deslizador de precio máximo ajustado dinámicamente según el inventario.
+> * **Filtros Colapsables en Mobile:** Menú de filtros tipo acordeón para no sobrecargar el espacio en pantallas pequeñas.
 
 ![Catálogo Inicial](file:///C:/Users/solsi/.gemini/antigravity-ide/brain/4577d16f-9458-42cf-ba98-75088c144bd3/catalog_page_initial_1782742628701.png)
-*Catálogo con la lista inicial de todos los autos.*
-
-![Búsqueda Filtrada (Volkswagen)](file:///C:/Users/solsi/.gemini/antigravity-ide/brain/4577d16f-9458-42cf-ba98-75088c144bd3/catalog_filtered_vw_1782742645636.png)
-*Resultado de la búsqueda filtrada al ingresar "Volkswagen".*
 
 ---
 
 ### 3. Ficha de Detalle del Vehículo
 Al hacer clic en "Ver detalles" de cualquier vehículo en el catálogo, se abre una vista dedicada.
-* **Características:**
-  * Galería de fotos del vehículo.
-  * Ficha técnica completa (año, kilometraje, tipo de transmisión, combustible, precio final y anticipo mínimo para financiación).
-  * Opciones de contacto directo (por ejemplo, vía WhatsApp o formulario) para que el cliente consulte sobre la unidad.
+
+> [!IMPORTANT]
+> **Características Destacadas:**
+> * **Galería:** Visor de imágenes interactivo.
+> * **Comparador Integrado:** Sugiere vehículos similares para contrastar especificaciones en una tarjeta compacta de doble columna.
+> * **Contacto Rápido:** Enlace directo a Google Maps, correo electrónico y WhatsApp sin formularios de por medio en móvil.
 
 ![Detalle de Vehículo](file:///C:/Users/solsi/.gemini/antigravity-ide/brain/4577d16f-9458-42cf-ba98-75088c144bd3/vehicle_details_1782742674853.png)
 
 ---
 
-### 4. Panel de Administración (Carga y Edición de Inventario)
-El área de administración permite gestionar el catálogo en tiempo real sin requerir conocimientos técnicos ni bases de datos complejas. Accediendo a `/admin` o mediante el enlace del menú superior, los operadores pueden:
-* **Crear publicaciones:** Formulario intuitivo para completar marca, modelo, año, kilometraje, precio, anticipo mínimo y subir enlaces a imágenes.
-* **Editar y Corregir:** Posibilidad de abrir cualquier auto publicado y actualizar sus datos instantáneamente.
-* **Eliminar Publicaciones:** Dar de baja autos que ya han sido vendidos para mantener el catálogo al día.
+### 4. Panel de Administración
+El área de administración permite gestionar el catálogo en tiempo real.
+
+| Característica | Detalle Técnico |
+| :--- | :--- |
+| **Acciones Rápidas** | Botones de edición y borrado apilados verticalmente a la izquierda para mayor comodidad. |
+| **Ordenamiento de Lista** | Ordenación ascendente/descendente directa al pulsar Año, Kilómetros o Precio en la cabecera. |
+| **Carga de Archivos** | Selector local y zona de **Drag & Drop** que genera vistas previas de imágenes en Base64. |
+| **Botón FAB** | Botón flotante animado de creación de publicación abajo a la derecha de la pantalla. |
 
 ![Panel de Administración](file:///C:/Users/solsi/.gemini/antigravity-ide/brain/4577d16f-9458-42cf-ba98-75088c144bd3/admin_dashboard_1782742692925.png)
-*Vista del panel de administración mostrando el inventario actual.*
-
-![Formulario de Creación](file:///C:/Users/solsi/.gemini/antigravity-ide/brain/4577d16f-9458-42cf-ba98-75088c144bd3/admin_add_form_filled_1782742758284.png)
-*Carga de un nuevo vehículo en el panel (ejemplo: Fiat Cronos).*
-
-![Panel Actualizado](file:///C:/Users/solsi/.gemini/antigravity-ide/brain/4577d16f-9458-42cf-ba98-75088c144bd3/admin_dashboard_updated_1782742807932.png)
-*Inventario actualizado después de agregar y editar el nuevo vehículo.*

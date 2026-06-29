@@ -42,6 +42,13 @@ type Tab = 'desc' | 'specs' | 'features';
                   [alt]="car()!.brand + ' ' + car()!.model + ' Vista Principal'" 
                   class="w-full h-full object-cover"
                 >
+                @if (car()!.isSold) {
+                  <div class="absolute inset-0 bg-black/25 backdrop-blur-xs z-10 pointer-events-none overflow-hidden">
+                    <div class="absolute top-4 -left-8 w-32 bg-rose-600 text-white font-black text-[9px] uppercase tracking-widest text-center py-1 shadow-md transform -rotate-45 border-y border-white/20 select-none">
+                      Vendido
+                    </div>
+                  </div>
+                }
                 <div 
                   (click)="openPreview(activeImageIndex()); $event.stopPropagation()"
                   class="absolute right-4 bottom-4 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-bold text-slate-800 shadow-lg cursor-pointer hover:bg-white transition-colors"

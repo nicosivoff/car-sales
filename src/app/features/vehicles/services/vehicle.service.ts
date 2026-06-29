@@ -42,9 +42,22 @@ export class VehicleService {
   private fetchVehicles(): void {
     this._state.update(state => ({ ...state, loading: true }));
     setTimeout(() => {
+      let cars: Vehicle[] = [];
+      const stored = localStorage.getItem('luxemotors_vehicles');
+      if (stored) {
+        try {
+          cars = JSON.parse(stored);
+        } catch (e) {
+          cars = VEHICLES_MOCK_DTO.map(dto => VehicleMapper.fromDTO(dto));
+        }
+      } else {
+        cars = VEHICLES_MOCK_DTO.map(dto => VehicleMapper.fromDTO(dto));
+        localStorage.setItem('luxemotors_vehicles', JSON.stringify(cars));
+      }
+
       this._state.update(state => ({
         ...state,
-        vehicles: VEHICLES_MOCK_DTO.map(dto => VehicleMapper.fromDTO(dto)),
+        vehicles: cars,
         loading: false
       }));
     }, 1000);
@@ -156,11 +169,15 @@ export class VehicleService {
         createdAt: new Date(),
         updatedAt: new Date()
       };
-      this._state.update(state => ({
-        ...state,
-        vehicles: [newVehicle, ...state.vehicles],
-        loading: false
-      }));
+      this._state.update(state => {
+        const updatedList = [newVehicle, ...state.vehicles];
+        localStorage.setItem('luxemotors_vehicles', JSON.stringify(updatedList));
+        return {
+          ...state,
+          vehicles: updatedList,
+          loading: false
+        };
+      });
     }, 500);
   }
 
@@ -170,15 +187,19 @@ export class VehicleService {
   updateVehicle(id: string, updatedFields: Partial<Vehicle>): void {
     this._state.update(state => ({ ...state, loading: true }));
     setTimeout(() => {
-      this._state.update(state => ({
-        ...state,
-        vehicles: state.vehicles.map(v => 
+      this._state.update(state => {
+        const updatedList = state.vehicles.map(v => 
           v.id === id 
             ? { ...v, ...updatedFields, updatedAt: new Date() } 
             : v
-        ),
-        loading: false
-      }));
+        );
+        localStorage.setItem('luxemotors_vehicles', JSON.stringify(updatedList));
+        return {
+          ...state,
+          vehicles: updatedList,
+          loading: false
+        };
+      });
     }, 500);
   }
 
@@ -188,11 +209,15 @@ export class VehicleService {
   deleteVehicle(id: string): void {
     this._state.update(state => ({ ...state, loading: true }));
     setTimeout(() => {
-      this._state.update(state => ({
-        ...state,
-        vehicles: state.vehicles.filter(v => v.id !== id),
-        loading: false
-      }));
+      this._state.update(state => {
+        const updatedList = state.vehicles.filter(v => v.id !== id);
+        localStorage.setItem('luxemotors_vehicles', JSON.stringify(updatedList));
+        return {
+          ...state,
+          vehicles: updatedList,
+          loading: false
+        };
+      });
     }, 500);
   }
 }

@@ -317,6 +317,14 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
                     >
                       {{ car.condition }}
                     </div>
+
+                    @if (car.isSold) {
+                      <div class="absolute inset-0 bg-black/25 backdrop-blur-xs z-10 pointer-events-none overflow-hidden">
+                        <div class="absolute top-4 -left-8 w-32 bg-rose-600 text-white font-black text-[9px] uppercase tracking-widest text-center py-1 shadow-md transform -rotate-45 border-y border-white/20 select-none">
+                          Vendido
+                        </div>
+                      </div>
+                    }
                   </div>
 
                   <!-- Datos -->

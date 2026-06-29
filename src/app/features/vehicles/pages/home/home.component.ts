@@ -148,8 +148,8 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
           </div>
 
           <!-- Grid de Autos Destacados (Con carrusel deslizable en mobile) -->
-          <div class="flex md:grid md:grid-cols-4 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0">
-            @if (loading()) {
+          @if (loading()) {
+            <div class="flex md:grid md:grid-cols-4 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0">
               <!-- Shimmer Loader Cards -->
               @for (i of [1, 2, 3, 4]; track i) {
                 <div class="w-[80vw] sm:w-[50vw] md:w-auto flex-shrink-0 snap-center bg-white border border-brand-surface-container rounded-2xl overflow-hidden flex flex-col h-[320px] transition-all">
@@ -170,10 +170,13 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
                   </div>
                 </div>
               }
-            } @else {
+            </div>
+          } @else {
+            <!-- Swiper deslizable infinito en Mobile -->
+            <div class="flex md:hidden gap-6 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide -mx-6 px-6">
               @for (car of featuredCars(); track car.uniqueKey) {
                 <div 
-                  class="vehicle-card w-[80vw] sm:w-[50vw] md:w-auto flex-shrink-0 snap-center group bg-white border border-brand-surface-container rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1.5 hover:border-brand-primary/20 flex flex-col cursor-pointer"
+                  class="vehicle-card w-[80vw] sm:w-[50vw] flex-shrink-0 snap-center group bg-white border border-brand-surface-container rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1.5 hover:border-brand-primary/20 flex flex-col cursor-pointer"
                   [routerLink]="['/vehicle', car.id]"
                 >
                   <!-- Imagen -->
@@ -187,6 +190,13 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
                     <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-brand-primary px-2.5 py-1 rounded text-[10px] font-bold uppercase">
                       Destacado
                     </span>
+                    @if (car.isSold) {
+                      <div class="absolute inset-0 bg-black/25 backdrop-blur-xs z-10 pointer-events-none overflow-hidden">
+                        <div class="absolute top-4 -left-8 w-32 bg-rose-600 text-white font-black text-[9px] uppercase tracking-widest text-center py-1 shadow-md transform -rotate-45 border-y border-white/20 select-none">
+                          Vendido
+                        </div>
+                      </div>
+                    }
                   </div>
                   <!-- Info -->
                   <div class="p-4 flex-grow flex flex-col justify-between">
@@ -207,8 +217,55 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
                   </div>
                 </div>
               }
-            }
-          </div>
+            </div>
+
+            <!-- Grilla estática de una sola fila en Desktop -->
+            <div class="hidden md:grid md:grid-cols-4 gap-6">
+              @for (car of originalFeaturedCars(); track car.id) {
+                <div 
+                  class="vehicle-card group bg-white border border-brand-surface-container rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1.5 hover:border-brand-primary/20 flex flex-col cursor-pointer"
+                  [routerLink]="['/vehicle', car.id]"
+                >
+                  <!-- Imagen -->
+                  <div class="aspect-video overflow-hidden relative bg-slate-100 shimmer-effect">
+                    <img 
+                      [src]="car.images[0]" 
+                      [alt]="car.brand" 
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    >
+                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-brand-primary px-2.5 py-1 rounded text-[10px] font-bold uppercase">
+                      Destacado
+                    </span>
+                    @if (car.isSold) {
+                      <div class="absolute inset-0 bg-black/25 backdrop-blur-xs z-10 pointer-events-none overflow-hidden">
+                        <div class="absolute top-4 -left-8 w-32 bg-rose-600 text-white font-black text-[9px] uppercase tracking-widest text-center py-1 shadow-md transform -rotate-45 border-y border-white/20 select-none">
+                          Vendido
+                        </div>
+                      </div>
+                    }
+                  </div>
+                  <!-- Info -->
+                  <div class="p-4 flex-grow flex flex-col justify-between">
+                    <h3 class="font-display font-bold text-sm text-brand-dark mb-1 group-hover:text-brand-primary transition-colors">
+                      {{ car.brand }} {{ car.model }}
+                    </h3>
+                    <div class="flex gap-2 mb-3">
+                      <span class="bg-brand-surface px-2 py-0.5 rounded text-[10px] font-bold text-brand-text-muted">{{ car.year }}</span>
+                      <span class="bg-brand-surface px-2 py-0.5 rounded text-[10px] font-bold text-brand-text-muted">{{ car.kilometers | number }} km</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span class="text-brand-primary font-black text-sm">USD {{ car.price | number }}</span>
+                      <span class="text-brand-primary font-bold text-xs flex items-center group-hover:translate-x-1 transition-transform">
+                        Ver
+                        <span class="material-symbols-outlined text-sm">chevron_right</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
         </div>
       </section>
 
@@ -537,8 +594,12 @@ export class HomeComponent {
     return this.brands().map(b => ({ value: b, label: b }));
   });
 
+  readonly originalFeaturedCars = computed(() => {
+    return this.vehicles().filter(v => v.isFeatured).slice(0, 4);
+  });
+
   readonly featuredCars = computed(() => {
-    const list = this.vehicles().filter(v => v.isFeatured).slice(0, 4);
+    const list = this.originalFeaturedCars();
     if (list.length === 0) return [];
     // Repeat the array 15 times to make it feel endless and infinite
     const repeated: any[] = [];
