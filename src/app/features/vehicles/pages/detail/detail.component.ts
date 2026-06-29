@@ -248,94 +248,161 @@ type Tab = 'desc' | 'specs' | 'features';
                   }
                 </div>
 
-                  <!-- Formulario -->
-                  @if (submitSuccess()) {
-                  <!-- Success State Card -->
-                  <div class="flex flex-col items-center justify-center text-center py-6 px-4 space-y-3 animate-fade-in">
-                    <div class="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-500 shadow-md shadow-emerald-500/10">
-                      <span class="material-symbols-outlined text-[24px]">check_circle</span>
-                    </div>
-                    <h3 class="font-display font-bold text-sm text-brand-dark">¡Mensaje Recibido!</h3>
-                    <p class="text-[11px] text-brand-text-muted max-w-xs leading-relaxed">
-                      Tu consulta fue enviada con éxito. Un asesor de ventas se pondrá en contacto contigo a la brevedad.
-                    </p>
-                    <button 
-                      type="button"
-                      (click)="resetContactForm()" 
-                      class="mt-3 px-4 py-2 bg-brand-primary/10 hover:bg-brand-primary/20 text-brand-primary font-bold text-[10px] rounded-lg transition-all active:scale-[0.98] cursor-pointer"
-                    >
-                      Enviar otra consulta
-                    </button>
-                  </div>
-                } @else {
-                  <form class="space-y-4" (submit)="onSubmitContact($event)">
-                    <div>
-                      <label class="text-[10px] font-bold text-brand-text-muted uppercase tracking-wider block mb-1">Nombre Completo</label>
-                      <input 
-                        type="text" 
-                        required
-                        [disabled]="isSubmitting()"
-                        placeholder="Juan Pérez" 
-                        class="w-full h-12 px-3 text-sm rounded-xl bg-white/40 border border-white/60 focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-hidden transition-all text-slate-800 disabled:opacity-60"
-                      >
-                    </div>
-                    <div>
-                      <label class="text-[10px] font-bold text-brand-text-muted uppercase tracking-wider block mb-1">Correo Electrónico</label>
-                      <input 
-                        type="email" 
-                        required
-                        [disabled]="isSubmitting()"
-                        placeholder="juan@ejemplo.com" 
-                        class="w-full h-12 px-3 text-sm rounded-xl bg-white/40 border border-white/60 focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-hidden transition-all text-slate-800 disabled:opacity-60"
-                      >
-                    </div>
+                <!-- Acciones Rápidas -->
+                <div class="space-y-3">
+                  <!-- Botón WhatsApp -->
+                  <button 
+                    type="button"
+                    (click)="contactWhatsApp()"
+                    class="w-full h-12 bg-emerald-500 text-white font-semibold text-sm rounded-xl flex items-center justify-center gap-2 hover:bg-emerald-600 transition-all active:scale-[0.98] cursor-pointer shadow-md"
+                  >
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.59 1.977 14.113 1.96 12.01 1.96c-5.437 0-9.865 4.37-9.869 9.8.001 1.973.518 3.894 1.5 5.614l-.982 3.585 3.687-.965zm9.64-5.328c-.287-.144-1.702-.84-1.966-.935-.264-.096-.456-.144-.648.144-.192.288-.744.935-.912 1.127-.168.193-.336.216-.624.072-.288-.145-1.218-.45-2.32-1.432-.857-.764-1.436-1.708-1.604-1.996-.168-.288-.018-.444.126-.587.13-.13.288-.336.432-.504.144-.168.192-.288.288-.48.096-.192.048-.36-.024-.504-.072-.144-.648-1.56-.888-2.136-.234-.56-.47-.482-.648-.492-.168-.008-.36-.01-.552-.01-.192 0-.504.072-.768.36-.264.288-1.008.984-1.008 2.4s1.032 2.784 1.176 2.976c.144.192 2.032 3.102 4.921 4.347.687.296 1.224.473 1.64.605.69.22 1.32.19 1.816.116.552-.083 1.702-.696 1.942-1.37.24-.672.24-1.25.168-1.37-.072-.12-.264-.192-.552-.336z"/>
+                    </svg>
+                    Mensaje por WhatsApp
+                  </button>
 
-                    <button 
-                      type="submit"
-                      [disabled]="isSubmitting()"
-                      class="w-full h-12 bg-brand-primary text-white font-semibold text-sm rounded-xl hover:opacity-90 transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60"
-                    >
-                      @if (isSubmitting()) {
-                        <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                        Enviando...
-                      } @else {
-                        Contactar Concesionario
-                      }
-                    </button>
-
-                    <button 
-                      type="button"
-                      (click)="contactWhatsApp()"
-                      [disabled]="isSubmitting()"
-                      class="w-full h-12 bg-emerald-500 text-white font-semibold text-sm rounded-xl flex items-center justify-center gap-2 hover:bg-emerald-600 transition-all active:scale-[0.98] cursor-pointer shadow-md animate-whatsapp-pulse disabled:opacity-60"
-                    >
-                      <span class="material-symbols-outlined">chat_bubble</span>
-                      Mensaje por WhatsApp
-                    </button>
-                  </form>
-                }
+                  <!-- Botón Comparar -->
+                  <button 
+                    type="button"
+                    (click)="startComparison()"
+                    class="w-full h-12 border border-brand-primary text-brand-primary hover:bg-brand-primary/5 font-semibold text-sm rounded-xl transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <span class="material-symbols-outlined text-[20px]">compare_arrows</span>
+                    Comparar Vehículo
+                  </button>
+                </div>
               </div>
 
             </div>
           </div>
         </div>
 
-        <!-- Botón de WhatsApp Pegajoso en Mobile (Sticky Bottom Bar + Pulse) -->
-        <div class="lg:hidden fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-brand-surface-container p-4 z-45 flex items-center justify-between shadow-2xl">
-          <div>
-            <span class="text-[10px] font-bold text-brand-text-muted uppercase tracking-widest block">Precio</span>
-            <span class="text-base font-black text-brand-primary">{{ car()!.currency === 'ARS' ? '$' : 'USD' }} {{ car()!.price | number }}</span>
-          </div>
-          <div class="w-2/3">
-            <button 
-              type="button"
-              (click)="contactWhatsApp()"
-              class="w-full h-12 bg-emerald-500 text-white font-semibold text-sm rounded-xl flex items-center justify-center gap-2 hover:bg-emerald-600 transition-all active:scale-[0.98] cursor-pointer shadow-md animate-whatsapp-pulse"
-            >
-              Consultar por WhatsApp
-            </button>
-          </div>
-        </div>
+        <!-- Sección de Comparación -->
+        @if (isComparing()) {
+          <section id="comparison-section" class="mt-12 max-w-4xl mx-auto card-glass p-5 rounded-2xl border border-brand-primary/10 shadow-lg animate-fade-in">
+            <div class="flex justify-between items-center mb-4">
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-brand-primary bg-blue-50 border border-brand-primary/10 px-2.5 py-0.5 rounded-full mb-2 inline-block">Comparador</span>
+                <h2 class="font-display font-extrabold text-xl text-brand-dark">Comparación de Vehículos</h2>
+              </div>
+              <button 
+                (click)="stopComparison()"
+                class="text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1 cursor-pointer"
+              >
+                <span class="material-symbols-outlined text-sm">close</span>
+                Cerrar
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
+              <!-- Vehículo Actual -->
+              <div class="bg-white/40 border border-white/60 p-4 rounded-xl flex flex-col justify-between">
+                <div>
+                  <img [src]="car()!.images[0]" class="w-full aspect-video object-cover rounded-lg mb-3 border border-white/20">
+                  <h3 class="font-display font-extrabold text-sm text-brand-dark">{{ car()!.brand }} {{ car()!.model }}</h3>
+                  <span class="inline-block mt-1 px-2 py-0.5 bg-brand-primary/10 text-brand-primary text-[9px] font-bold uppercase rounded">Este Auto</span>
+                </div>
+                <div class="mt-6 space-y-3 pt-6 border-t border-slate-200/50 text-xs">
+                  <div class="flex justify-between"><span class="text-slate-500">Precio</span><span class="font-black text-brand-primary">USD {{ car()!.price | number }}</span></div>
+                  <div class="flex justify-between"><span class="text-slate-500">Año</span><span class="font-bold text-slate-800">{{ car()!.year }}</span></div>
+                  <div class="flex justify-between"><span class="text-slate-500">Kilómetros</span><span class="font-bold text-slate-800">{{ car()!.kilometers | number }} km</span></div>
+                  <div class="flex justify-between"><span class="text-slate-500">Caja</span><span class="font-bold text-slate-800 capitalize">{{ car()!.transmission }}</span></div>
+                  <div class="flex justify-between"><span class="text-slate-500">Combustible</span><span class="font-bold text-slate-800 capitalize">{{ car()!.fuelType }}</span></div>
+                </div>
+              </div>
+
+              <!-- Selector / Sugeridos o Vehículo Seleccionado -->
+              <div class="md:col-span-2 bg-white/60 border border-white/80 p-4 rounded-xl flex flex-col justify-between">
+                @if (comparisonVehicle()) {
+                  <!-- Mostrar el auto seleccionado para comparar -->
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 h-full items-stretch">
+                    <div class="flex flex-col justify-between">
+                      <div>
+                        <img [src]="comparisonVehicle()!.images[0]" class="w-full aspect-video object-cover rounded-xl mb-4 border border-white/20">
+                        <h3 class="font-display font-extrabold text-sm text-brand-dark">{{ comparisonVehicle()!.brand }} {{ comparisonVehicle()!.model }}</h3>
+                        <button 
+                          (click)="selectComparisonVehicle(null)"
+                          class="text-[10px] text-brand-primary font-bold hover:underline mt-2 flex items-center gap-1 cursor-pointer"
+                        >
+                          <span class="material-symbols-outlined text-xs">swap_horiz</span>
+                          Cambiar auto
+                        </button>
+                      </div>
+                      <div class="mt-6 space-y-3 pt-6 border-t border-slate-200/50 text-xs">
+                        <div class="flex justify-between"><span class="text-slate-500">Precio</span><span class="font-black text-brand-primary">USD {{ comparisonVehicle()!.price | number }}</span></div>
+                        <div class="flex justify-between"><span class="text-slate-500">Año</span><span class="font-bold text-slate-800">{{ comparisonVehicle()!.year }}</span></div>
+                        <div class="flex justify-between"><span class="text-slate-500">Kilómetros</span><span class="font-bold text-slate-800">{{ comparisonVehicle()!.kilometers | number }} km</span></div>
+                        <div class="flex justify-between"><span class="text-slate-500">Caja</span><span class="font-bold text-slate-800 capitalize">{{ comparisonVehicle()!.transmission }}</span></div>
+                        <div class="flex justify-between"><span class="text-slate-500">Combustible</span><span class="font-bold text-slate-800 capitalize">{{ comparisonVehicle()!.fuelType }}</span></div>
+                      </div>
+                    </div>
+                    <!-- Comparación Analítica Rápida -->
+                    <div class="bg-brand-primary/5 p-4 rounded-xl border border-brand-primary/10 flex flex-col justify-between">
+                      <h4 class="text-xs font-bold text-brand-primary uppercase tracking-wider mb-4">Análisis Comparativo</h4>
+                      <div class="space-y-4 text-xs">
+                        <!-- Comparación de Precio -->
+                        <div>
+                          <p class="font-bold text-slate-700">Diferencia de Precio</p>
+                          <p class="text-[11px] text-slate-600 mt-1 leading-normal">
+                            @if (car()!.price === comparisonVehicle()!.price) {
+                              Tienen el mismo precio.
+                            } @else if (car()!.price < comparisonVehicle()!.price) {
+                              El {{ car()!.brand }} es <strong class="text-emerald-600">USD {{ (comparisonVehicle()!.price - car()!.price) | number }} más barato</strong> que el {{ comparisonVehicle()!.brand }}.
+                            } @else {
+                              El {{ car()!.brand }} es <strong>USD {{ (car()!.price - comparisonVehicle()!.price) | number }} más caro</strong> que el {{ comparisonVehicle()!.brand }}.
+                            }
+                          </p>
+                        </div>
+                        <!-- Comparación de KM -->
+                        <div>
+                          <p class="font-bold text-slate-700">Diferencia de Kilómetros</p>
+                          <p class="text-[11px] text-slate-600 mt-1 leading-normal">
+                            @if (car()!.kilometers === comparisonVehicle()!.kilometers) {
+                              Tienen el mismo kilometraje.
+                            } @else if (car()!.kilometers < comparisonVehicle()!.kilometers) {
+                              El {{ car()!.brand }} tiene <strong class="text-emerald-600">{{ (comparisonVehicle()!.kilometers - car()!.kilometers) | number }} km menos</strong>.
+                            } @else {
+                              El {{ car()!.brand }} tiene <strong>{{ (car()!.kilometers - comparisonVehicle()!.kilometers) | number }} km más</strong>.
+                            }
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                } @else {
+                  <!-- Sugerencias para comparar -->
+                  <div class="flex flex-col justify-between h-full">
+                    <div>
+                      <h4 class="text-xs font-bold text-brand-primary uppercase tracking-wider mb-2">Selecciona un auto similar para comparar</h4>
+                      <p class="text-xs text-slate-500 mb-6">Hemos seleccionado los siguientes vehículos del catálogo similares por tipo de marca o precio:</p>
+                      
+                      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        @for (sim of similarVehicles(); track sim.id) {
+                          <div 
+                            (click)="selectComparisonVehicle(sim)"
+                            class="bg-white border border-slate-200 p-3.5 rounded-xl hover:shadow-lg hover:border-brand-primary/30 transition-all cursor-pointer flex flex-col justify-between group"
+                          >
+                            <img [src]="sim.images[0]" class="w-full aspect-video object-cover rounded-lg mb-2">
+                            <div class="flex-grow flex flex-col justify-between">
+                              <h5 class="font-bold text-xs text-brand-dark group-hover:text-brand-primary transition-colors leading-tight mb-1">{{ sim.brand }} {{ sim.model }}</h5>
+                              <p class="text-[10px] font-black text-brand-primary">USD {{ sim.price | number }}</p>
+                            </div>
+                            <span class="text-[9px] font-bold text-brand-primary mt-3 flex items-center gap-0.5 hover:underline">
+                              Seleccionar
+                              <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+                            </span>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          </section>
+        }
+
 
         <!-- Image Preview Lightbox Overlay -->
         @if (isPreviewOpen()) {
@@ -417,11 +484,41 @@ export class DetailComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly vehicleService = inject(VehicleService);
 
+  readonly isComparing = signal(false);
+  readonly comparisonVehicle = signal<any | null>(null);
+
   readonly carId = signal<string | null>(this.route.snapshot.paramMap.get('id'));
   readonly car = computed(() => {
     const id = this.carId();
     return id ? this.vehicleService.getVehicleById(id) : undefined;
   });
+
+  readonly similarVehicles = computed(() => {
+    const current = this.car();
+    if (!current) return [];
+    return this.vehicleService.vehicles()
+      .filter(v => v.id !== current.id && (v.brand === current.brand || Math.abs(v.price - current.price) < current.price * 0.4))
+      .slice(0, 3);
+  });
+
+  startComparison(): void {
+    this.isComparing.set(true);
+    setTimeout(() => {
+      const el = document.getElementById('comparison-section');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  }
+
+  stopComparison(): void {
+    this.isComparing.set(false);
+    this.comparisonVehicle.set(null);
+  }
+
+  selectComparisonVehicle(vehicle: any): void {
+    this.comparisonVehicle.set(vehicle);
+  }
 
   readonly activeImageIndex = signal(0);
   readonly activeImage = computed(() => {

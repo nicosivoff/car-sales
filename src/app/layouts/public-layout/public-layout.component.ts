@@ -18,77 +18,82 @@ import { VehicleService } from '../../features/vehicles/services/vehicle.service
           : 'card-glass border-b border-white/40 shadow-md rounded-b-[24px] md:rounded-b-[32px]'"
         class="w-full fixed top-0 left-0 z-50 transition-all duration-300"
       >
-        <nav class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
-          <div class="flex items-center gap-8">
-            <!-- Logo -->
+        <nav class="max-w-7xl mx-auto px-6 flex items-center h-16 relative">
+          <!-- Logo (Left aligned) -->
+          <a 
+            (click)="clickLogo()" 
+            [ngClass]="isTransparent() ? 'text-white' : 'text-brand-primary'"
+            class="text-xl font-bold tracking-wider font-display uppercase hover:opacity-90 transition-colors cursor-pointer absolute left-6"
+          >
+            LUXEMOTORS
+          </a>
+
+          <!-- Centered Navigation Links -->
+          <div class="hidden md:flex items-center justify-center gap-8 mx-auto">
+            <!-- Botón Inicio -->
             <a 
-              routerLink="/" 
-              [ngClass]="isTransparent() ? 'text-white' : 'text-brand-primary'"
-              class="text-xl font-bold tracking-wider font-display uppercase hover:opacity-90 transition-colors"
+              (click)="clickInicio()" 
+              [ngClass]="isTransparent() ? 'text-slate-200 hover:text-white' : 'text-brand-text-muted hover:text-brand-primary'"
+              class="relative text-sm font-semibold transition-colors pb-1 group cursor-pointer"
             >
-              LUXEMOTORS
+              Inicio
+              <span [ngClass]="isTransparent() ? 'bg-white' : 'bg-brand-primary'" class="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"></span>
             </a>
-            <div class="hidden md:flex items-center gap-6">
-              <!-- Botón Inicio -->
-              <a 
-                routerLink="/" 
-                routerLinkActive="text-brand-primary" 
-                [routerLinkActiveOptions]="{exact: true}"
-                [ngClass]="isTransparent() ? 'text-slate-200 hover:text-white' : 'text-brand-text-muted hover:text-brand-primary'"
-                class="relative text-sm font-semibold transition-colors pb-1 group cursor-pointer"
-              >
-                Inicio
-                <span 
-                  [ngClass]="isTransparent() ? 'bg-white' : 'bg-brand-primary'"
-                  class="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-                ></span>
-              </a>
 
-              <!-- Botón Catálogo -->
-              <a 
-                routerLink="/catalog" 
-                routerLinkActive="text-brand-primary" 
-                [routerLinkActiveOptions]="{exact: true}"
-                [ngClass]="isTransparent() ? 'text-slate-200 hover:text-white' : 'text-brand-text-muted hover:text-brand-primary'"
-                class="relative text-sm font-semibold transition-colors pb-1 group cursor-pointer"
-              >
-                Catálogo
-                <span 
-                  [ngClass]="isTransparent() ? 'bg-white' : 'bg-brand-primary'"
-                  class="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-                ></span>
-              </a>
+            <!-- Botón Catálogo -->
+            <a 
+              (click)="clickCatalog()"
+              [ngClass]="isTransparent() ? 'text-slate-200 hover:text-white' : 'text-brand-text-muted hover:text-brand-primary'"
+              class="relative text-sm font-semibold transition-colors pb-1 group cursor-pointer"
+            >
+              Catálogo
+              <span [ngClass]="isTransparent() ? 'bg-white' : 'bg-brand-primary'" class="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"></span>
+            </a>
 
-              <!-- Botón Contacto -->
+            <!-- Botón Financiación -->
+            <a 
+              (click)="scrollToFinancing()"
+              [ngClass]="isTransparent() ? 'text-slate-200 hover:text-white' : 'text-brand-text-muted hover:text-brand-primary'"
+              class="relative text-sm font-semibold transition-colors pb-1 group cursor-pointer"
+            >
+              Financiación
+              <span [ngClass]="isTransparent() ? 'bg-white' : 'bg-brand-primary'" class="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"></span>
+            </a>
+
+            <!-- Botón Contacto -->
+            <a 
+              (click)="scrollToContact()"
+              [ngClass]="isTransparent() ? 'text-slate-200 hover:text-white' : 'text-brand-text-muted hover:text-brand-primary'"
+              class="relative text-sm font-semibold transition-colors pb-1 group cursor-pointer"
+            >
+              Contacto
+              <span [ngClass]="isTransparent() ? 'bg-white' : 'bg-brand-primary'" class="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"></span>
+            </a>
+          </div>
+
+          <!-- Right aligned controls (Mobile Toggle / Contact Icons) -->
+          <div class="flex items-center gap-4 absolute right-6">
+            <!-- Contact Icons (desktop only) -->
+            <div class="hidden md:flex items-center gap-4">
               <a 
-                (click)="scrollToContact()"
-                [ngClass]="isTransparent() ? 'text-slate-200 hover:text-white' : 'text-brand-text-muted hover:text-brand-primary'"
-                class="relative text-sm font-semibold transition-colors pb-1 group cursor-pointer"
+                href="https://wa.me/5491100000000" 
+                target="_blank" 
+                [ngClass]="isTransparent() ? 'text-white hover:text-emerald-400' : 'text-brand-text-muted hover:text-emerald-500'" 
+                class="transition-colors flex items-center justify-center"
               >
-                Contacto
-                <span 
-                  [ngClass]="isTransparent() ? 'bg-white' : 'bg-brand-primary'"
-                  class="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-                ></span>
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.59 1.977 14.113 1.96 12.01 1.96c-5.437 0-9.865 4.37-9.869 9.8.001 1.973.518 3.894 1.5 5.614l-.982 3.585 3.687-.965zm9.64-5.328c-.287-.144-1.702-.84-1.966-.935-.264-.096-.456-.144-.648.144-.192.288-.744.935-.912 1.127-.168.193-.336.216-.624.072-.288-.145-1.218-.45-2.32-1.432-.857-.764-1.436-1.708-1.604-1.996-.168-.288-.018-.444.126-.587.13-.13.288-.336.432-.504.144-.168.192-.288.288-.48.096-.192.048-.36-.024-.504-.072-.144-.648-1.56-.888-2.136-.234-.56-.47-.482-.648-.492-.168-.008-.36-.01-.552-.01-.192 0-.504.072-.768.36-.264.288-1.008.984-1.008 2.4s1.032 2.784 1.176 2.976c.144.192 2.032 3.102 4.921 4.347.687.296 1.224.473 1.64.605.69.22 1.32.19 1.816.116.552-.083 1.702-.696 1.942-1.37.24-.672.24-1.25.168-1.37-.072-.12-.264-.192-.552-.336z"/>
+                </svg>
+              </a>
+              <a 
+                href="mailto:contacto@luxemotors.com" 
+                [ngClass]="isTransparent() ? 'text-white hover:text-blue-400' : 'text-brand-text-muted hover:text-brand-primary'" 
+                class="transition-colors flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-[20px]">mail</span>
               </a>
             </div>
-          </div>
-          <div class="flex items-center gap-4">
-            <!-- Botón Acceso Admin -->
-            <a 
-              routerLink="/admin" 
-              [ngClass]="isTransparent() 
-                ? 'border-white/40 bg-white/20 text-white hover:border-white/80 hover:bg-white/30' 
-                : 'border-white/60 bg-white/40 text-brand-text-muted hover:text-brand-primary hover:border-brand-primary'"
-              class="relative hidden sm:inline-block px-4 py-2 border backdrop-blur-md font-semibold text-xs rounded-lg transition-all overflow-hidden group cursor-pointer"
-            >
-              <span class="relative z-10">Acceso Admin</span>
-              <span 
-                [ngClass]="isTransparent() ? 'bg-white' : 'bg-brand-primary'"
-                class="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
-              ></span>
-            </a>
-            <!-- Botón Menú Mobile -->
+
             <button 
               (click)="toggleMenu()"
               [ngClass]="isTransparent() ? 'text-white hover:bg-white/10' : 'text-brand-text-muted hover:bg-white/50'"
@@ -110,31 +115,28 @@ import { VehicleService } from '../../features/vehicles/services/vehicle.service
         @if (isMenuOpen()) {
           <div class="md:hidden bg-white/80 backdrop-blur-xl border-b border-white/30 px-6 pt-2 pb-4 space-y-2 rounded-b-2xl">
             <a 
-              routerLink="/" 
-              (click)="closeMenu()"
-              class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-text-muted hover:bg-white/60 hover:text-brand-primary transition-all"
+              (click)="clickInicio()"
+              class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-text-muted hover:bg-white/60 hover:text-brand-primary transition-all cursor-pointer"
             >
               Inicio
+            </a>
+            <a 
+              (click)="clickCatalog()"
+              class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-text-muted hover:bg-white/60 hover:text-brand-primary transition-all cursor-pointer"
+            >
+              Catálogo
+            </a>
+            <a 
+              (click)="scrollToFinancing(); closeMenu()"
+              class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-text-muted hover:bg-white/60 hover:text-brand-primary transition-all cursor-pointer"
+            >
+              Financiación
             </a>
             <a 
               (click)="scrollToContact(); closeMenu()"
               class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-text-muted hover:bg-white/60 hover:text-brand-primary transition-all cursor-pointer"
             >
               Contacto
-            </a>
-            <a 
-              routerLink="/catalog" 
-              (click)="closeMenu()"
-              class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-text-muted hover:bg-white/60 hover:text-brand-primary transition-all"
-            >
-              Catálogo
-            </a>
-            <a 
-              routerLink="/admin" 
-              (click)="closeMenu()"
-              class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-primary hover:bg-blue-50 transition-all text-center border border-brand-primary/20"
-            >
-              Acceso Admin
             </a>
           </div>
         }
@@ -147,40 +149,29 @@ import { VehicleService } from '../../features/vehicles/services/vehicle.service
 
       <!-- Footer -->
       <footer class="bg-brand-dark text-slate-400 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-6 py-12">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Brand -->
-            <div>
-              <div class="flex items-center space-x-2 mb-4">
-                <span class="font-display font-bold text-lg text-white tracking-wider uppercase">LUXEMOTORS</span>
-              </div>
-              <p class="text-sm text-slate-400 max-w-xs leading-relaxed">
-                La plataforma líder para conectar agencias de autos con compradores.
-              </p>
-            </div>
-
-            <!-- Links -->
-            <div>
-              <h3 class="text-sm font-semibold text-white tracking-wider uppercase mb-4">Enlaces rápidos</h3>
-              <ul class="space-y-2 text-sm">
-                <li><a routerLink="/" class="hover:text-white transition-colors">Inicio</a></li>
-                <li><a routerLink="/catalog" class="hover:text-white transition-colors">Catálogo</a></li>
-                <li><a (click)="scrollToContact()" class="hover:text-white transition-colors cursor-pointer">Contacto</a></li>
-              </ul>
-            </div>
-
-            <!-- Contact / Trust -->
-            <div>
-              <h3 class="text-sm font-semibold text-white tracking-wider uppercase mb-4">Soporte y Ventas</h3>
-              <p class="text-sm leading-relaxed mb-2">¿Quieres publicar tu concesionaria en nuestra plataforma?</p>
-              <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-primary/10 text-brand-primary border border-brand-primary/20">
-                contacto&#64;luxemotors.com
-              </span>
+        <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="text-center sm:text-left">
+            <span class="font-display font-bold text-base text-white tracking-wider uppercase">LUXEMOTORS</span>
+            <div class="mt-1 text-[10px] text-slate-500">
+              &copy; {{ currentYear }} LUXEMOTORS. Todos los derechos reservados.
             </div>
           </div>
-
-          <div class="mt-8 pt-8 border-t border-slate-850 text-center text-xs text-slate-500">
-            &copy; {{ currentYear }} LUXEMOTORS. Todos los derechos reservados.
+          <div class="flex items-center gap-4 justify-center">
+            <a 
+              href="https://wa.me/5491100000000" 
+              target="_blank" 
+              class="text-slate-400 hover:text-emerald-400 transition-colors flex items-center justify-center"
+            >
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.59 1.977 14.113 1.96 12.01 1.96c-5.437 0-9.865 4.37-9.869 9.8.001 1.973.518 3.894 1.5 5.614l-.982 3.585 3.687-.965zm9.64-5.328c-.287-.144-1.702-.84-1.966-.935-.264-.096-.456-.144-.648.144-.192.288-.744.935-.912 1.127-.168.193-.336.216-.624.072-.288-.145-1.218-.45-2.32-1.432-.857-.764-1.436-1.708-1.604-1.996-.168-.288-.018-.444.126-.587.13-.13.288-.336.432-.504.144-.168.192-.288.288-.48.096-.192.048-.36-.024-.504-.072-.144-.648-1.56-.888-2.136-.234-.56-.47-.482-.648-.492-.168-.008-.36-.01-.552-.01-.192 0-.504.072-.768.36-.264.288-1.008.984-1.008 2.4s1.032 2.784 1.176 2.976c.144.192 2.032 3.102 4.921 4.347.687.296 1.224.473 1.64.605.69.22 1.32.19 1.816.116.552-.083 1.702-.696 1.942-1.37.24-.672.24-1.25.168-1.37-.072-.12-.264-.192-.552-.336z"/>
+              </svg>
+            </a>
+            <a 
+              href="mailto:contacto@luxemotors.com" 
+              class="text-slate-400 hover:text-blue-400 transition-colors flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-[20px]">mail</span>
+            </a>
           </div>
         </div>
       </footer>
@@ -197,6 +188,50 @@ export class PublicLayoutComponent {
   currentYear = new Date().getFullYear();
   isScrolled = signal(false);
   currentUrl = signal(this.router.url);
+
+  clickLogo() {
+    this.clickInicio();
+  }
+
+  clickInicio() {
+    this.closeMenu();
+    if (this.isHomePage()) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      this.router.navigate(['/']).then(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  }
+
+  clickCatalog() {
+    this.closeMenu();
+    if (this.router.url.startsWith('/catalog')) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      this.router.navigate(['/catalog']).then(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  }
+
+  scrollToFinancing() {
+    if (this.isHomePage()) {
+      const el = document.getElementById('financiamiento-section');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      this.router.navigate(['/']).then(() => {
+        setTimeout(() => {
+          const el = document.getElementById('financiamiento-section');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 150);
+      });
+    }
+  }
 
   constructor() {
     this.router.events.pipe(
@@ -232,7 +267,7 @@ export class PublicLayoutComponent {
 
   filterByCondition(condition: 'nuevo' | 'usado') {
     this.vehicleService.clearFilters();
-    this.vehicleService.updateFilters({ condition });
+    this.vehicleService.updateFilters({ condition: [condition] });
     this.router.navigate(['/catalog']);
   }
 

@@ -4,15 +4,15 @@ import { VEHICLES_MOCK_DTO } from '../mockData/vehicles.mock';
 
 export interface VehicleFilters {
   search?: string;
-  brand?: string;
+  brand?: string[];
   minYear?: number;
   maxYear?: number;
-  year?: number;
+  year?: number[];
   minPrice?: number;
   maxPrice?: number;
-  transmission?: 'manual' | 'automatico';
-  condition?: 'nuevo' | 'usado';
-  fuelType?: 'gasolina' | 'diesel' | 'gnc' | 'electrico' | 'hibrido';
+  transmission?: ('manual' | 'automatico')[];
+  condition?: ('nuevo' | 'usado')[];
+  fuelType?: ('gasolina' | 'diesel' | 'gnc' | 'electrico' | 'hibrido')[];
 }
 
 interface VehicleState {
@@ -73,8 +73,8 @@ export class VehicleService {
         const matchesModel = vehicle.model.toLowerCase().includes(query);
         if (!matchesBrand && !matchesModel) return false;
       }
-      // Filtro de marca
-      if (filters.brand && vehicle.brand !== filters.brand) {
+      // Filtro de marca (múltiple)
+      if (filters.brand && filters.brand.length > 0 && !filters.brand.includes(vehicle.brand)) {
         return false;
       }
       // Filtro de año mínimo
@@ -85,8 +85,8 @@ export class VehicleService {
       if (filters.maxYear && vehicle.year > filters.maxYear) {
         return false;
       }
-      // Filtro de año exacto
-      if (filters.year && vehicle.year !== filters.year) {
+      // Filtro de año exacto (múltiple)
+      if (filters.year && filters.year.length > 0 && !filters.year.includes(vehicle.year)) {
         return false;
       }
       // Filtro de precio mínimo
@@ -97,16 +97,16 @@ export class VehicleService {
       if (filters.maxPrice && vehicle.price > filters.maxPrice) {
         return false;
       }
-      // Filtro de transmisión
-      if (filters.transmission && vehicle.transmission !== filters.transmission) {
+      // Filtro de transmisión (múltiple)
+      if (filters.transmission && filters.transmission.length > 0 && !filters.transmission.includes(vehicle.transmission)) {
         return false;
       }
-      // Filtro de condición (nuevo / usado)
-      if (filters.condition && vehicle.condition !== filters.condition) {
+      // Filtro de condición (nuevo / usado) (múltiple)
+      if (filters.condition && filters.condition.length > 0 && !filters.condition.includes(vehicle.condition)) {
         return false;
       }
-      // Filtro de combustible
-      if (filters.fuelType && vehicle.fuelType !== filters.fuelType) {
+      // Filtro de combustible (múltiple)
+      if (filters.fuelType && filters.fuelType.length > 0 && !filters.fuelType.includes(vehicle.fuelType)) {
         return false;
       }
       return true;

@@ -14,21 +14,15 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
       <!-- Navbar Admin -->
       <header class="w-full bg-white border-b border-slate-200 shadow-xs fixed top-0 z-45">
         <nav class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
-          <div class="flex items-center gap-4">
-            <a routerLink="/" class="flex items-center text-slate-500 hover:text-brand-primary transition-colors gap-1.5 text-xs font-bold">
+          <div>
+            <a routerLink="/" class="flex items-center text-slate-500 hover:text-brand-primary transition-colors gap-1.5 text-xs font-bold select-none cursor-pointer">
               <span class="material-symbols-outlined text-sm">arrow_back</span>
               Volver al Sitio
             </a>
-            <div class="h-4 w-px bg-slate-200"></div>
+          </div>
+          <div class="flex items-center gap-2">
             <span class="font-display font-bold text-base text-brand-dark tracking-wider uppercase">LUXEMOTORS <span class="text-xs text-brand-primary font-bold lowercase bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-md ml-1">admin</span></span>
           </div>
-          <button
-            (click)="openAddModal()"
-            class="bg-brand-primary hover:bg-indigo-700 text-white px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 shadow-md shadow-indigo-500/10 cursor-pointer active:scale-95"
-          >
-            <span class="material-symbols-outlined text-base">add</span>
-            Agregar Vehículo
-          </button>
         </nav>
       </header>
 
@@ -39,25 +33,27 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
           <p class="text-xs text-brand-text-muted mt-1">Gestioná el inventario de la concesionaria, modificá precios y publicá nuevos vehículos.</p>
         </div>
 
-        <!-- KPI Cards -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Total Vehículos</span>
-            <div class="text-2xl font-black text-brand-dark">{{ totalVehicles() }}</div>
+        <!-- KPI Cards (Ocultado) -->
+        @if (false) {
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Total Vehículos</span>
+              <div class="text-2xl font-black text-brand-dark">{{ totalVehicles() }}</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+              <span class="text-[10px] font-bold text-emerald-500 uppercase tracking-wider block mb-1">En Venta (Disponibles)</span>
+              <div class="text-2xl font-black text-brand-dark">{{ availableVehicles() }}</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+              <span class="text-[10px] font-bold text-indigo-500 uppercase tracking-wider block mb-1 font-display">Seminuevos y Usados</span>
+              <div class="text-2xl font-black text-brand-dark">{{ totalUsados() }}</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+              <span class="text-[10px] font-bold text-brand-error uppercase tracking-wider block mb-1">Vendidos</span>
+              <div class="text-2xl font-black text-brand-dark">{{ totalSold() }}</div>
+            </div>
           </div>
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-            <span class="text-[10px] font-bold text-emerald-500 uppercase tracking-wider block mb-1">En Venta (Disponibles)</span>
-            <div class="text-2xl font-black text-brand-dark">{{ availableVehicles() }}</div>
-          </div>
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-            <span class="text-[10px] font-bold text-indigo-500 uppercase tracking-wider block mb-1 font-display">Seminuevos y Usados</span>
-            <div class="text-2xl font-black text-brand-dark">{{ totalUsados() }}</div>
-          </div>
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-            <span class="text-[10px] font-bold text-brand-error uppercase tracking-wider block mb-1">Vendidos</span>
-            <div class="text-2xl font-black text-brand-dark">{{ totalSold() }}</div>
-          </div>
-        </div>
+        }
 
         <!-- Inventario List (Table) -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
@@ -77,31 +73,129 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
             </div>
           </div>
 
+          <!-- Filtros Rápidos (Ocultado) -->
+          @if (false) {
+            <div class="px-6 py-3 bg-slate-50/50 border-b border-slate-200 flex flex-wrap gap-2 items-center">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-2">Filtros rápidos:</span>
+              <button 
+                (click)="activeQuickFilter.set('all')"
+                [ngClass]="activeQuickFilter() === 'all' ? 'bg-brand-primary text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+                class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
+              >
+                Todos
+              </button>
+              <button 
+                (click)="activeQuickFilter.set('available')"
+                [ngClass]="activeQuickFilter() === 'available' ? 'bg-emerald-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+                class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
+              >
+                Disponibles
+              </button>
+              <button 
+                (click)="activeQuickFilter.set('sold')"
+                [ngClass]="activeQuickFilter() === 'sold' ? 'bg-rose-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+                class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
+              >
+                Vendidos
+              </button>
+              <button 
+                (click)="activeQuickFilter.set('new')"
+                [ngClass]="activeQuickFilter() === 'new' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+                class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
+              >
+                Nuevos (0km)
+              </button>
+              <button 
+                (click)="activeQuickFilter.set('used')"
+                [ngClass]="activeQuickFilter() === 'used' ? 'bg-amber-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+                class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
+              >
+                Usados
+              </button>
+              <button 
+                (click)="activeQuickFilter.set('featured')"
+                [ngClass]="activeQuickFilter() === 'featured' ? 'bg-blue-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+                class="px-3 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer"
+              >
+                Destacados
+              </button>
+            </div>
+          }
+
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">
               <thead>
-                <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider">
+                <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider select-none">
+                  <th class="p-4">Acciones</th>
                   <th class="p-4">Vehículo</th>
-                  <th class="p-4">Año</th>
-                  <th class="p-4">Kilómetros</th>
-                  <th class="p-4">Precio</th>
+                  <th 
+                    (click)="toggleSort('year')"
+                    class="p-4 cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div class="flex items-center gap-1">
+                      Año
+                      @if (sortKey() === 'year') {
+                        <span class="material-symbols-outlined text-[14px]">
+                          {{ sortAsc() ? 'arrow_upward' : 'arrow_downward' }}
+                        </span>
+                      }
+                    </div>
+                  </th>
+                  <th 
+                    (click)="toggleSort('kilometers')"
+                    class="p-4 cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div class="flex items-center gap-1">
+                      Kilómetros
+                      @if (sortKey() === 'kilometers') {
+                        <span class="material-symbols-outlined text-[14px]">
+                          {{ sortAsc() ? 'arrow_upward' : 'arrow_downward' }}
+                        </span>
+                      }
+                    </div>
+                  </th>
+                  <th 
+                    (click)="toggleSort('price')"
+                    class="p-4 cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div class="flex items-center gap-1">
+                      Precio
+                      @if (sortKey() === 'price') {
+                        <span class="material-symbols-outlined text-[14px]">
+                          {{ sortAsc() ? 'arrow_upward' : 'arrow_downward' }}
+                        </span>
+                      }
+                    </div>
+                  </th>
                   <th class="p-4">Especificaciones</th>
                   <th class="p-4">Estado</th>
-                  <th class="p-4 text-right">Acciones</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100">
                 @for (car of filteredList(); track car.id) {
                   <tr class="hover:bg-slate-50/50 transition-colors">
+                    <td class="p-2 w-12 text-center">
+                      <div class="flex flex-col gap-0.5 items-center justify-center">
+                        <button
+                          (click)="openEditModal(car)"
+                          class="p-1 text-slate-400 hover:text-brand-primary hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                          title="Editar vehículo"
+                        >
+                          <span class="material-symbols-outlined text-sm">edit</span>
+                        </button>
+                        <button
+                          (click)="deleteVehicle(car.id)"
+                          class="p-1 text-slate-400 hover:text-brand-error hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+                          title="Eliminar vehículo"
+                        >
+                          <span class="material-symbols-outlined text-sm">delete</span>
+                        </button>
+                      </div>
+                    </td>
                     <td class="p-4">
-                      <div class="flex items-center gap-3">
-                        <div class="w-12 h-9 rounded-md overflow-hidden bg-slate-100 flex-shrink-0">
-                          <img [src]="car.images[0] || 'assets/placeholder-car.jpg'" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                          <p class="font-bold text-brand-dark">{{ car.brand }} {{ car.model }}</p>
-                          <span class="text-[10px] text-slate-400 block mt-0.5">ID: {{ car.id }}</span>
-                        </div>
+                      <div>
+                        <p class="font-bold text-brand-dark">{{ car.brand }} {{ car.model }}</p>
+                        <span class="text-[10px] text-slate-400 block mt-0.5">ID: {{ car.id }}</span>
                       </div>
                     </td>
                     <td class="p-4 font-semibold text-slate-700">{{ car.year }}</td>
@@ -127,22 +221,6 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
                         {{ car.isSold ? 'Vendido' : 'Disponible' }}
                       </button>
                     </td>
-                    <td class="p-4 text-right space-x-1">
-                      <button
-                        (click)="openEditModal(car)"
-                        class="p-2 text-slate-400 hover:text-brand-primary hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
-                        title="Editar vehículo"
-                      >
-                        <span class="material-symbols-outlined text-sm">edit</span>
-                      </button>
-                      <button
-                        (click)="deleteVehicle(car.id)"
-                        class="p-2 text-slate-400 hover:text-brand-error hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
-                        title="Eliminar vehículo"
-                      >
-                        <span class="material-symbols-outlined text-sm">delete</span>
-                      </button>
-                    </td>
                   </tr>
                 } @empty {
                   <tr>
@@ -157,6 +235,18 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
           </div>
         </div>
       </main>
+
+      <!-- Botón Agregar Vehículo Flotante (Bottom Right) -->
+      <button
+        (click)="openAddModal()"
+        class="fixed bottom-6 right-6 bg-brand-primary hover:bg-indigo-700 text-white p-4 rounded-full font-bold text-xs transition-all flex items-center gap-2 shadow-2xl z-40 cursor-pointer active:scale-95 group"
+        title="Agregar Vehículo"
+      >
+        <span class="material-symbols-outlined text-[24px]">add</span>
+        <span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 font-bold ease-in-out whitespace-nowrap">
+          Agregar Vehículo
+        </span>
+      </button>
 
       <!-- Edit / Add Modal -->
       @if (isModalOpen()) {
@@ -308,17 +398,52 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
                 </div>
               </div>
 
-              <!-- Imágenes -->
-              <div class="space-y-1">
-                <label class="font-bold text-slate-500 uppercase tracking-wider block">Imágenes (Una URL por línea o separadas por comas)</label>
-                <textarea
-                  rows="3"
-                  required
-                  placeholder="https://ejemplo.com/auto1.jpg"
-                  [(ngModel)]="rawImages"
-                  name="rawImages"
-                  class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-hidden transition-all text-slate-800 resize-none font-mono"
-                ></textarea>
+              <!-- Imágenes (File Upload / Drag and Drop) -->
+              <div class="space-y-2">
+                <label class="font-bold text-slate-500 uppercase tracking-wider block">Imágenes del Vehículo (JPG, PNG)</label>
+                
+                <!-- Drag and Drop Dropzone -->
+                <div 
+                  (dragover)="onDragOver($event)"
+                  (dragleave)="onDragLeave($event)"
+                  (drop)="onDrop($event)"
+                  (click)="fileInput.click()"
+                  [ngClass]="isDragging() ? 'border-brand-primary bg-indigo-50/50' : 'border-slate-300 bg-slate-50/50 hover:bg-slate-50'"
+                  class="border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center gap-2 group"
+                >
+                  <input 
+                    #fileInput
+                    type="file" 
+                    multiple
+                    accept="image/png, image/jpeg"
+                    (change)="onFileSelected($event)"
+                    class="hidden"
+                  >
+                  <span class="material-symbols-outlined text-[36px] text-slate-400 group-hover:text-brand-primary transition-colors">upload_file</span>
+                  <div class="space-y-0.5">
+                    <p class="font-bold text-slate-705 text-xs">Arrastrá tus imágenes acá o <span class="text-brand-primary hover:underline">explorá</span></p>
+                    <p class="text-[10px] text-slate-400 font-medium">Soporta archivos JPG y PNG</p>
+                  </div>
+                </div>
+
+                <!-- Preview of Uploaded Images -->
+                @if (uploadedImages().length > 0) {
+                  <div class="grid grid-cols-4 gap-2 mt-2">
+                    @for (img of uploadedImages(); track img; let idx = $index) {
+                      <div class="relative aspect-video rounded-lg overflow-hidden border border-slate-200 group">
+                        <img [src]="img" class="w-full h-full object-cover">
+                        <button 
+                          type="button"
+                          (click)="removeUploadedImage(idx)"
+                          class="absolute top-1 right-1 p-1 bg-black/60 hover:bg-rose-600 text-white rounded-md transition-colors cursor-pointer flex items-center justify-center"
+                          title="Eliminar imagen"
+                        >
+                          <span class="material-symbols-outlined text-xs">close</span>
+                        </button>
+                      </div>
+                    }
+                  </div>
+                }
               </div>
 
               <!-- Checkboxes destacados -->
@@ -396,6 +521,17 @@ export class DashboardComponent {
   readonly modalMode = signal<'add' | 'edit'>('add');
   readonly selectedVehicleId = signal<string | null>(null);
 
+  // Sorting State
+  readonly sortKey = signal<'year' | 'kilometers' | 'price' | null>(null);
+  readonly sortAsc = signal<boolean>(true);
+
+  // Quick Filter State
+  readonly activeQuickFilter = signal<'all' | 'available' | 'sold' | 'new' | 'used' | 'featured'>('all');
+
+  // Drag and Drop File Upload State
+  readonly isDragging = signal(false);
+  readonly uploadedImages = signal<string[]>([]);
+
   // Custom Confirm State
   readonly isConfirmOpen = signal(false);
   readonly confirmTitle = signal('');
@@ -403,7 +539,6 @@ export class DashboardComponent {
   readonly confirmAction = signal<(() => void) | null>(null);
 
   // Form State
-  rawImages = '';
   formData = {
     brand: '',
     model: '',
@@ -425,21 +560,60 @@ export class DashboardComponent {
   readonly totalSold = computed(() => this.vehicleService.vehicles().filter(v => v.isSold).length);
   readonly totalUsados = computed(() => this.vehicleService.vehicles().filter(v => v.condition === 'usado').length);
 
-  // Inventario Filtrado por Búsqueda local
+  // Inventario Filtrado por Búsqueda, Filtros Rápidos y Ordenamiento
   readonly filteredList = computed(() => {
-    const list = this.vehicleService.vehicles();
+    let list = this.vehicleService.vehicles();
+    
+    // 1. Filtros Rápidos
+    const quick = this.activeQuickFilter();
+    if (quick === 'available') {
+      list = list.filter(v => !v.isSold);
+    } else if (quick === 'sold') {
+      list = list.filter(v => v.isSold);
+    } else if (quick === 'new') {
+      list = list.filter(v => v.condition === 'nuevo');
+    } else if (quick === 'used') {
+      list = list.filter(v => v.condition === 'usado');
+    } else if (quick === 'featured') {
+      list = list.filter(v => v.isFeatured);
+    }
+
+    // 2. Búsqueda por Texto
     const query = this.searchQuery().toLowerCase().trim();
-    if (!query) return list;
-    return list.filter(v =>
-      v.brand.toLowerCase().includes(query) ||
-      v.model.toLowerCase().includes(query)
-    );
+    if (query) {
+      list = list.filter(v =>
+        v.brand.toLowerCase().includes(query) ||
+        v.model.toLowerCase().includes(query)
+      );
+    }
+    
+    // 3. Ordenamiento
+    const key = this.sortKey();
+    if (key) {
+      const asc = this.sortAsc();
+      list = [...list].sort((a, b) => {
+        const valA = a[key] ?? 0;
+        const valB = b[key] ?? 0;
+        if (valA === valB) return 0;
+        return asc ? (valA > valB ? 1 : -1) : (valA < valB ? 1 : -1);
+      });
+    }
+    return list;
   });
+
+  toggleSort(key: 'year' | 'kilometers' | 'price'): void {
+    if (this.sortKey() === key) {
+      this.sortAsc.update(asc => !asc);
+    } else {
+      this.sortKey.set(key);
+      this.sortAsc.set(true);
+    }
+  }
 
   openAddModal(): void {
     this.modalMode.set('add');
     this.selectedVehicleId.set(null);
-    this.rawImages = 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80';
+    this.uploadedImages.set([]);
     this.formData = {
       brand: '',
       model: '',
@@ -460,7 +634,7 @@ export class DashboardComponent {
   openEditModal(vehicle: Vehicle): void {
     this.modalMode.set('edit');
     this.selectedVehicleId.set(vehicle.id);
-    this.rawImages = vehicle.images.join('\n');
+    this.uploadedImages.set([...vehicle.images]);
     this.formData = {
       brand: vehicle.brand,
       model: vehicle.model,
@@ -485,11 +659,7 @@ export class DashboardComponent {
   onSubmitForm(event: Event): void {
     event.preventDefault();
     
-    // Parse raw image text lines into array
-    const images = this.rawImages
-      .split(/[\n,]/)
-      .map(img => img.trim())
-      .filter(img => img.length > 0);
+    const images = this.uploadedImages();
 
     const vehicleData = {
       brand: this.formData.brand.trim(),
@@ -516,6 +686,55 @@ export class DashboardComponent {
       }
     }
     this.closeModal();
+  }
+
+  // Drag & Drop Event Handlers
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging.set(true);
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging.set(false);
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging.set(false);
+    
+    if (event.dataTransfer?.files) {
+      this.handleFiles(event.dataTransfer.files);
+    }
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.handleFiles(input.files);
+    }
+  }
+
+  handleFiles(files: FileList): void {
+    Array.from(files).forEach(file => {
+      if (file.type === 'image/png' || file.type === 'image/jpeg') {
+        const reader = new FileReader();
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          const result = e.target?.result as string;
+          if (result) {
+            this.uploadedImages.update(imgs => [...imgs, result]);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  removeUploadedImage(index: number): void {
+    this.uploadedImages.update(imgs => imgs.filter((_, i) => i !== index));
   }
 
   toggleSoldStatus(vehicle: Vehicle): void {

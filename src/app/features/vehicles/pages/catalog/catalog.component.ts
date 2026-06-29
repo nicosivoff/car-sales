@@ -16,9 +16,30 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
       <!-- Contenedor con Sidebar en Desktop, Stack en Mobile -->
       <div class="flex flex-col lg:flex-row gap-8">
         
-        <!-- Sidebar de Filtros (Liquid Glass Style) -->
+        <!-- Sidebar de Filtros (Liquid Glass Style / Dropdown en Mobile) -->
         <aside class="w-full lg:w-72 flex-shrink-0">
-          <div class="card-glass rounded-2xl p-6 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar">
+          <!-- Botón de Dropdown en Mobile -->
+          <button 
+            (click)="toggleMobileFilters()"
+            class="lg:hidden w-full flex items-center justify-between bg-white border border-slate-200 p-4 rounded-xl shadow-xs mb-4 cursor-pointer text-slate-800"
+          >
+            <div class="flex items-center gap-2 font-bold text-xs">
+              <span class="material-symbols-outlined text-[18px] text-brand-primary">filter_list</span>
+              Filtrar Catálogo
+              @if (hasActiveFilters()) {
+                <span class="bg-brand-primary text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">!</span>
+              }
+            </div>
+            <span class="material-symbols-outlined text-[18px] transition-transform duration-300" [ngClass]="{'rotate-180': isMobileFiltersOpen()}">
+              keyboard_arrow_down
+            </span>
+          </button>
+
+          <!-- Filtros Container -->
+          <div 
+            [ngClass]="isMobileFiltersOpen() ? 'block' : 'hidden lg:block'"
+            class="card-glass rounded-2xl p-6 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar"
+          >
             
             <div class="flex items-center justify-between mb-6">
               <h2 class="text-lg font-bold font-display text-brand-dark">Filtros</h2>
@@ -35,7 +56,7 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
             <div class="space-y-6">
               <!-- Búsqueda por Texto -->
               <div class="space-y-2">
-                <label class="text-xs font-bold text-brand-text-muted uppercase tracking-wider block">Búsqueda</label>
+                <label class="text-[10px] font-bold text-brand-primary uppercase tracking-wider block mb-1">Búsqueda</label>
                 <div class="relative">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                     <span class="material-symbols-outlined text-[18px]">search</span>
@@ -52,25 +73,25 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
 
               <!-- Filtro de Condición -->
               <div class="space-y-2">
-                <label class="text-xs font-bold text-brand-text-muted uppercase tracking-wider block">Condición</label>
+                <label class="text-[10px] font-bold text-brand-primary uppercase tracking-wider block mb-1">Condición</label>
                 <div class="flex flex-wrap gap-2">
                   <button 
-                    (click)="setConditionFilter(undefined)"
-                    [ngClass]="[!filters().condition ? 'border-brand-primary bg-brand-primary text-white' : 'border-white/60 bg-white/40 text-brand-text-muted hover:border-brand-primary']"
+                    (click)="clearConditionFilter()"
+                    [ngClass]="[!(filters().condition && filters().condition!.length > 0) ? 'border-brand-primary bg-brand-primary text-white shadow-xs' : 'border-white/60 bg-white/40 text-brand-text-muted hover:border-brand-primary shadow-xs']"
                     class="px-4 py-2 rounded-full border text-xs font-bold transition-all cursor-pointer"
                   >
                     Todos
                   </button>
                   <button 
-                    (click)="setConditionFilter('nuevo')"
-                    [ngClass]="[filters().condition === 'nuevo' ? 'border-brand-primary bg-brand-primary text-white' : 'border-white/60 bg-white/40 text-brand-text-muted hover:border-brand-primary']"
+                    (click)="toggleConditionFilter('nuevo')"
+                    [ngClass]="[isConditionSelected('nuevo') ? 'border-brand-primary bg-brand-primary text-white shadow-xs' : 'border-white/60 bg-white/40 text-brand-text-muted hover:border-brand-primary shadow-xs']"
                     class="px-4 py-2 rounded-full border text-xs font-bold transition-all cursor-pointer"
                   >
                     Nuevo (0km)
                   </button>
                   <button 
-                    (click)="setConditionFilter('usado')"
-                    [ngClass]="[filters().condition === 'usado' ? 'border-brand-primary bg-brand-primary text-white' : 'border-white/60 bg-white/40 text-brand-text-muted hover:border-brand-primary']"
+                    (click)="toggleConditionFilter('usado')"
+                    [ngClass]="[isConditionSelected('usado') ? 'border-brand-primary bg-brand-primary text-white shadow-xs' : 'border-white/60 bg-white/40 text-brand-text-muted hover:border-brand-primary shadow-xs']"
                     class="px-4 py-2 rounded-full border text-xs font-bold transition-all cursor-pointer"
                   >
                     Usado
@@ -80,85 +101,101 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
 
               <!-- Filtro de Marca -->
               <div class="space-y-2">
-                <app-dropdown
-                  label="Marca"
-                  placeholder="Todas las marcas"
-                  [options]="brandDropdownOptions()"
-                  [value]="filters().brand"
-                  (valueChange)="onBrandSelect($event)"
-                  [showNoneOption]="true"
-                  noneLabel="Todas las marcas"
-                ></app-dropdown>
+                <label class="text-[10px] font-bold text-brand-primary uppercase tracking-wider block mb-1">Marca</label>
+                <div class="max-h-36 overflow-y-auto custom-scrollbar space-y-2 bg-white/30 border border-white/60 p-3 rounded-xl">
+                  @for (brand of brands(); track brand) {
+                    <label class="flex items-center gap-2 text-xs font-bold text-slate-700 cursor-pointer select-none">
+                      <input 
+                        type="checkbox" 
+                        [checked]="isBrandSelected(brand)"
+                        (change)="toggleBrandFilter(brand)"
+                        class="rounded border-slate-300 text-brand-primary focus:ring-brand-primary/20 cursor-pointer"
+                      >
+                      {{ brand }}
+                    </label>
+                  }
+                </div>
               </div>
 
-              <!-- Filtro de Rango de Precios -->
+              <!-- Filtro de Rango de Precios (Barra Desplazable) -->
               <div class="space-y-2">
-                <label class="text-xs font-bold text-brand-text-muted uppercase tracking-wider block">Rango de Precios</label>
-                <div class="flex gap-2">
+                <label class="text-[10px] font-bold text-brand-primary uppercase tracking-wider block mb-1">
+                  Precio Máximo: {{ (filters().maxPrice || maxPriceLimit()) | number }}
+                </label>
+                <div class="space-y-2 bg-white/30 border border-white/60 p-3.5 rounded-xl">
                   <input 
-                    type="number" 
-                    [value]="filters().minPrice || ''"
-                    (input)="onMinPriceChange($event)"
-                    placeholder="Mínimo" 
-                    class="w-full h-11 px-3 text-xs bg-white/40 border border-white/60 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-hidden transition-all text-slate-700 shadow-xs"
+                    type="range" 
+                    [min]="0"
+                    [max]="maxPriceLimit()"
+                    [step]="maxPriceLimit() / 100"
+                    [value]="filters().maxPrice || maxPriceLimit()"
+                    (input)="onMaxPriceSliderChange($event)"
+                    class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-primary"
                   >
-                  <input 
-                    type="number" 
-                    [value]="filters().maxPrice || ''"
-                    (input)="onMaxPriceChange($event)"
-                    placeholder="Máximo" 
-                    class="w-full h-11 px-3 text-xs bg-white/40 border border-white/60 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-hidden transition-all text-slate-700 shadow-xs"
-                  >
+                  <div class="flex justify-between text-[9px] font-bold text-slate-500">
+                    <span>$0</span>
+                    <span>$ {{ maxPriceLimit() | number }}</span>
+                  </div>
                 </div>
               </div>
 
               <!-- Filtro de Combustible -->
               <div class="space-y-2">
-                <app-dropdown
-                  label="Combustible"
-                  placeholder="Todos"
-                  [options]="fuelDropdownOptions"
-                  [value]="filters().fuelType"
-                  (valueChange)="onFuelTypeSelect($event)"
-                  [showNoneOption]="true"
-                  noneLabel="Todos"
-                ></app-dropdown>
+                <label class="text-[10px] font-bold text-brand-primary uppercase tracking-wider block mb-1">Combustible</label>
+                <div class="space-y-2 bg-white/30 border border-white/60 p-3 rounded-xl">
+                  @for (fuel of fuelOptions; track fuel.value) {
+                    <label class="flex items-center gap-2 text-xs font-bold text-slate-700 cursor-pointer select-none">
+                      <input 
+                        type="checkbox" 
+                        [checked]="isFuelTypeSelected(fuel.value)"
+                        (change)="toggleFuelTypeFilter(fuel.value)"
+                        class="rounded border-slate-300 text-brand-primary focus:ring-brand-primary/20 cursor-pointer"
+                      >
+                      {{ fuel.label }}
+                    </label>
+                  }
+                </div>
               </div>
 
               <!-- Filtro de Año -->
               <div class="space-y-2">
-                <app-dropdown
-                  label="Año"
-                  placeholder="Todos los años"
-                  [options]="yearDropdownOptions()"
-                  [value]="filters().year"
-                  (valueChange)="onYearSelect($event)"
-                  [showNoneOption]="true"
-                  noneLabel="Todos los años"
-                ></app-dropdown>
+                <label class="text-[10px] font-bold text-brand-primary uppercase tracking-wider block mb-1">Año</label>
+                <div class="max-h-36 overflow-y-auto custom-scrollbar space-y-2 bg-white/30 border border-white/60 p-3 rounded-xl">
+                  @for (y of years(); track y) {
+                    <label class="flex items-center gap-2 text-xs font-bold text-slate-700 cursor-pointer select-none">
+                      <input 
+                        type="checkbox" 
+                        [checked]="isYearSelected(y)"
+                        (change)="toggleYearFilter(y)"
+                        class="rounded border-slate-300 text-brand-primary focus:ring-brand-primary/20 cursor-pointer"
+                      >
+                      {{ y }}
+                    </label>
+                  }
+                </div>
               </div>
 
               <!-- Filtro de Caja / Transmisión -->
               <div class="space-y-2">
-                <label class="text-xs font-bold text-brand-text-muted uppercase tracking-wider block">Transmisión</label>
+                <label class="text-[10px] font-bold text-brand-primary uppercase tracking-wider block mb-1">Transmisión</label>
                 <div class="flex flex-wrap gap-2">
                   <button 
-                    (click)="setTransmissionFilter(undefined)"
-                    [ngClass]="[!filters().transmission ? 'border-brand-primary bg-brand-primary text-white shadow-xs' : 'border-white/60 bg-white/40 text-brand-text-muted hover:border-brand-primary shadow-xs']"
+                    (click)="clearTransmissionFilter()"
+                    [ngClass]="[!(filters().transmission && filters().transmission!.length > 0) ? 'border-brand-primary bg-brand-primary text-white shadow-xs' : 'border-white/60 bg-white/40 text-brand-text-muted hover:border-brand-primary shadow-xs']"
                     class="px-4 py-2 rounded-full border text-xs font-bold transition-all cursor-pointer"
                   >
                     Todos
                   </button>
                   <button 
-                    (click)="setTransmissionFilter('manual')"
-                    [ngClass]="[filters().transmission === 'manual' ? 'border-brand-primary bg-brand-primary text-white shadow-xs' : 'border-white/60 bg-white/40 text-brand-text-muted hover:border-brand-primary shadow-xs']"
+                    (click)="toggleTransmissionFilter('manual')"
+                    [ngClass]="[isTransmissionSelected('manual') ? 'border-brand-primary bg-brand-primary text-white shadow-xs' : 'border-white/60 bg-white/40 text-brand-text-muted hover:border-brand-primary shadow-xs']"
                     class="px-4 py-2 rounded-full border text-xs font-bold transition-all cursor-pointer"
                   >
                     Manual
                   </button>
                   <button 
-                    (click)="setTransmissionFilter('automatico')"
-                    [ngClass]="[filters().transmission === 'automatico' ? 'border-brand-primary bg-brand-primary text-white shadow-xs' : 'border-white/60 bg-white/40 text-brand-text-muted hover:border-brand-primary shadow-xs']"
+                    (click)="toggleTransmissionFilter('automatico')"
+                    [ngClass]="[isTransmissionSelected('automatico') ? 'border-brand-primary bg-brand-primary text-white shadow-xs' : 'border-white/60 bg-white/40 text-brand-text-muted hover:border-brand-primary shadow-xs']"
                     class="px-4 py-2 rounded-full border text-xs font-bold transition-all cursor-pointer"
                   >
                     Automático
@@ -275,7 +312,7 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
                     
                     <!-- Badge de Condición (Nuevo / Usado) -->
                     <div 
-                      class="absolute top-3 left-3 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase text-white shadow-md animate-pulse"
+                      class="absolute top-3 left-3 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase text-white shadow-md"
                       [ngClass]="car.condition === 'nuevo' ? 'bg-emerald-500' : 'bg-slate-700'"
                     >
                       {{ car.condition }}
@@ -285,21 +322,19 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
                   <!-- Datos -->
                   <div class="p-4 flex-grow flex flex-col justify-between space-y-4">
                     <div>
-                      <div class="flex justify-between items-start gap-2 mb-2">
-                        <div class="flex flex-col">
-                          <h3 class="font-display font-bold text-base text-brand-dark group-hover:text-brand-primary transition-colors leading-tight">
-                            {{ car.brand }} {{ car.model }}
-                          </h3>
-                          @if (car.minDownPayment) {
-                            <span class="text-[10px] font-bold text-brand-primary/80 mt-1 flex items-center gap-0.5">
-                              <span class="material-symbols-outlined text-[12px]">payments</span>
-                              Anticipo Mínimo: {{ car.currency === 'ARS' ? '$' : 'USD' }} {{ car.minDownPayment | number }}
-                            </span>
-                          }
-                        </div>
+                      <div class="flex flex-col items-start gap-1 mb-2">
+                        <h3 class="font-display font-bold text-base text-brand-dark group-hover:text-brand-primary transition-colors leading-tight">
+                          {{ car.brand }} {{ car.model }}
+                        </h3>
                         <span class="text-sm font-black text-brand-primary whitespace-nowrap">
                           {{ car.currency === 'ARS' ? '$' : 'USD' }} {{ car.price | number }}
                         </span>
+                        @if (car.minDownPayment) {
+                          <span class="text-[10px] font-bold text-brand-primary/80 mt-1 flex items-center gap-0.5">
+                            <span class="material-symbols-outlined text-[12px]">payments</span>
+                            Anticipo Mínimo: {{ car.currency === 'ARS' ? '$' : 'USD' }} {{ car.minDownPayment | number }}
+                          </span>
+                        }
                       </div>
 
                       <div class="flex items-center gap-3 text-brand-text-muted">
@@ -345,20 +380,28 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
             <div>
               <h3 class="font-display font-bold text-sm text-brand-dark mb-4">Información de Sucursal</h3>
               <div class="space-y-4">
-                <div class="flex gap-2.5 items-start">
-                  <span class="material-symbols-outlined text-[18px] text-brand-primary bg-blue-50 p-1.5 rounded-lg">location_on</span>
+                <a 
+                  href="https://maps.google.com/?q=Av.+Bicentenario+1234,+Salta" 
+                  target="_blank"
+                  class="flex gap-2.5 items-start group/item cursor-pointer hover:text-brand-primary transition-colors"
+                >
+                  <span class="material-symbols-outlined text-[18px] text-brand-primary bg-blue-50 p-1.5 rounded-lg group-hover/item:bg-brand-primary group-hover/item:text-white transition-all">location_on</span>
                   <div>
                     <h4 class="text-[10px] font-bold text-brand-dark">Ubicación</h4>
-                    <p class="text-xs text-brand-text-muted">Av. Bicentenario 1234, Salta</p>
+                    <p class="text-xs text-brand-text-muted group-hover/item:text-brand-primary transition-colors">Av. Bicentenario 1234, Salta</p>
                   </div>
-                </div>
-                <div class="flex gap-2.5 items-start">
-                  <span class="material-symbols-outlined text-[18px] text-brand-primary bg-blue-50 p-1.5 rounded-lg">phone</span>
+                </a>
+                <a 
+                  href="https://wa.me/5493871234567" 
+                  target="_blank"
+                  class="flex gap-2.5 items-start group/item cursor-pointer hover:text-brand-primary transition-colors"
+                >
+                  <span class="material-symbols-outlined text-[18px] text-brand-primary bg-blue-50 p-1.5 rounded-lg group-hover/item:bg-brand-primary group-hover/item:text-white transition-all">phone</span>
                   <div>
                     <h4 class="text-[10px] font-bold text-brand-dark">Teléfono</h4>
-                    <p class="text-xs text-brand-text-muted">+54 9 387 123-4567</p>
+                    <p class="text-xs text-brand-text-muted group-hover/item:text-brand-primary transition-colors">+54 9 387 123-4567</p>
                   </div>
-                </div>
+                </a>
                 <div class="flex gap-2.5 items-start">
                   <span class="material-symbols-outlined text-[18px] text-brand-primary bg-blue-50 p-1.5 rounded-lg">schedule</span>
                   <div class="flex-grow">
@@ -391,7 +434,7 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
           </div>
 
           <!-- Columna Formulario -->
-          <div class="md:col-span-7">
+          <div class="hidden md:block md:col-span-7">
             <div class="card-glass p-6 rounded-2xl border border-slate-300 shadow-md bg-slate-100!">
               @if (submitSuccess()) {
                 <!-- Success State Card -->
@@ -421,6 +464,9 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
                       <input 
                         type="text" 
                         required
+                        title="Este campo es obligatorio"
+                        oninvalid="this.setCustomValidity('Por favor, ingresá tu nombre')" 
+                        oninput="this.setCustomValidity('')"
                         placeholder="Ej. Juan Pérez" 
                         [disabled]="isSubmitting()"
                         class="w-full h-10 px-3 text-xs bg-white/40 border border-white/60 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-hidden transition-all text-slate-800 disabled:opacity-60"
@@ -431,6 +477,9 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
                       <input 
                         type="tel" 
                         required
+                        title="Este campo es obligatorio"
+                        oninvalid="this.setCustomValidity('Por favor, ingresá tu teléfono')" 
+                        oninput="this.setCustomValidity('')"
                         placeholder="Ej. +54 387 1234567" 
                         [disabled]="isSubmitting()"
                         class="w-full h-10 px-3 text-xs bg-white/40 border border-white/60 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-hidden transition-all text-slate-800 disabled:opacity-60"
@@ -443,6 +492,9 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
                     <textarea 
                       rows="3" 
                       required
+                      title="Este campo es obligatorio"
+                      oninvalid="this.setCustomValidity('Por favor, escribí tu consulta')" 
+                      oninput="this.setCustomValidity('')"
                       placeholder="¿En qué vehículo estás interesado?" 
                       [disabled]="isSubmitting()"
                       class="w-full p-3 text-xs bg-white/40 border border-white/60 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-hidden transition-all text-slate-800 resize-none disabled:opacity-60"
@@ -499,17 +551,35 @@ export class CatalogComponent {
   readonly brands = this.vehicleService.brands;
   readonly loading = this.vehicleService.loading;
 
+  readonly isMobileFiltersOpen = signal(false);
+
+  toggleMobileFilters(): void {
+    this.isMobileFiltersOpen.update(open => !open);
+  }
+
   readonly activeFiltersList = computed(() => {
     const filters = this.filters();
     const list: { key: string; label: string }[] = [];
     if (filters.search) list.push({ key: 'search', label: `Búsqueda: "${filters.search}"` });
-    if (filters.brand) list.push({ key: 'brand', label: `Marca: ${filters.brand}` });
-    if (filters.year) list.push({ key: 'year', label: `Año: ${filters.year}` });
-    if (filters.transmission) list.push({ key: 'transmission', label: `Caja: ${filters.transmission === 'manual' ? 'Manual' : 'Automática'}` });
-    if (filters.condition) list.push({ key: 'condition', label: `Condición: ${filters.condition === 'nuevo' ? '0 Km' : 'Usado'}` });
-    if (filters.fuelType) {
+    
+    if (filters.brand && filters.brand.length > 0) {
+      list.push({ key: 'brand', label: `Marcas: ${filters.brand.join(', ')}` });
+    }
+    if (filters.year && filters.year.length > 0) {
+      list.push({ key: 'year', label: `Años: ${filters.year.join(', ')}` });
+    }
+    if (filters.transmission && filters.transmission.length > 0) {
+      const labels = filters.transmission.map(t => t === 'manual' ? 'Manual' : 'Automática');
+      list.push({ key: 'transmission', label: `Caja: ${labels.join(', ')}` });
+    }
+    if (filters.condition && filters.condition.length > 0) {
+      const labels = filters.condition.map(c => c === 'nuevo' ? '0 Km' : 'Usado');
+      list.push({ key: 'condition', label: `Condición: ${labels.join(', ')}` });
+    }
+    if (filters.fuelType && filters.fuelType.length > 0) {
       const fuelLabels: Record<string, string> = { gasolina: 'Nafta', diesel: 'Diésel', gnc: 'GNC', hibrido: 'Híbrido', electrico: 'Eléctrico' };
-      list.push({ key: 'fuelType', label: `Combustible: ${fuelLabels[filters.fuelType] || filters.fuelType}` });
+      const labels = filters.fuelType.map(f => fuelLabels[f] || f);
+      list.push({ key: 'fuelType', label: `Combustible: ${labels.join(', ')}` });
     }
     return list;
   });
@@ -525,6 +595,11 @@ export class CatalogComponent {
   readonly years = computed(() => {
     const yearsSet = new Set(this.vehicleService.vehicles().map(v => v.year));
     return Array.from(yearsSet).sort((a, b) => b - a);
+  });
+
+  readonly maxPriceLimit = computed(() => {
+    const prices = this.vehicleService.vehicles().map(v => v.price);
+    return prices.length > 0 ? Math.max(...prices) : 100000000;
   });
 
   readonly sortedVehicles = computed(() => {
@@ -574,10 +649,6 @@ export class CatalogComponent {
     this.vehicleService.updateFilters({ search: query });
   }
 
-  onBrandSelect(val: any): void {
-    this.vehicleService.updateFilters({ brand: val || undefined });
-  }
-
   onMinPriceChange(event: Event): void {
     const val = (event.target as HTMLInputElement).value;
     this.vehicleService.updateFilters({ minPrice: val ? Number(val) : undefined });
@@ -588,24 +659,79 @@ export class CatalogComponent {
     this.vehicleService.updateFilters({ maxPrice: val ? Number(val) : undefined });
   }
 
-  onFuelTypeSelect(val: any): void {
-    this.vehicleService.updateFilters({ fuelType: val || undefined });
-  }
-
-  onYearSelect(val: any): void {
-    this.vehicleService.updateFilters({ year: val ? Number(val) : undefined });
+  onMaxPriceSliderChange(event: Event): void {
+    const val = Number((event.target as HTMLInputElement).value);
+    this.vehicleService.updateFilters({ maxPrice: val });
   }
 
   onSortSelect(val: any): void {
     this.sortBy.set(val);
   }
 
-  setTransmissionFilter(transmission?: 'manual' | 'automatico'): void {
-    this.vehicleService.updateFilters({ transmission });
+  readonly fuelOptions = [
+    { value: 'gasolina', label: 'Nafta' },
+    { value: 'diesel', label: 'Diesel' },
+    { value: 'gnc', label: 'GNC' },
+    { value: 'electrico', label: 'Eléctrico' },
+    { value: 'hibrido', label: 'Híbrido' }
+  ];
+
+  isBrandSelected(brand: string): boolean {
+    return (this.filters().brand || []).includes(brand);
   }
 
-  setConditionFilter(condition?: 'nuevo' | 'usado'): void {
-    this.vehicleService.updateFilters({ condition });
+  toggleBrandFilter(brand: string): void {
+    const cur = this.filters().brand || [];
+    const updated = cur.includes(brand) ? cur.filter(b => b !== brand) : [...cur, brand];
+    this.vehicleService.updateFilters({ brand: updated.length > 0 ? updated : undefined });
+  }
+
+  isFuelTypeSelected(fuel: any): boolean {
+    return (this.filters().fuelType || []).includes(fuel);
+  }
+
+  toggleFuelTypeFilter(fuel: any): void {
+    const cur = this.filters().fuelType || [];
+    const updated = cur.includes(fuel) ? cur.filter(f => f !== fuel) : [...cur, fuel];
+    this.vehicleService.updateFilters({ fuelType: updated.length > 0 ? updated : undefined });
+  }
+
+  isYearSelected(year: number): boolean {
+    return (this.filters().year || []).includes(year);
+  }
+
+  toggleYearFilter(year: number): void {
+    const cur = this.filters().year || [];
+    const updated = cur.includes(year) ? cur.filter(y => y !== year) : [...cur, year];
+    this.vehicleService.updateFilters({ year: updated.length > 0 ? updated : undefined });
+  }
+
+  isConditionSelected(cond: any): boolean {
+    return (this.filters().condition || []).includes(cond);
+  }
+
+  toggleConditionFilter(cond: any): void {
+    const cur = this.filters().condition || [];
+    const updated = cur.includes(cond) ? cur.filter(c => c !== cond) : [...cur, cond];
+    this.vehicleService.updateFilters({ condition: updated.length > 0 ? updated : undefined });
+  }
+
+  clearConditionFilter(): void {
+    this.vehicleService.updateFilters({ condition: undefined });
+  }
+
+  isTransmissionSelected(trans: any): boolean {
+    return (this.filters().transmission || []).includes(trans);
+  }
+
+  toggleTransmissionFilter(trans: any): void {
+    const cur = this.filters().transmission || [];
+    const updated = cur.includes(trans) ? cur.filter(t => t !== trans) : [...cur, trans];
+    this.vehicleService.updateFilters({ transmission: updated.length > 0 ? updated : undefined });
+  }
+
+  clearTransmissionFilter(): void {
+    this.vehicleService.updateFilters({ transmission: undefined });
   }
 
   clearAllFilters(): void {
