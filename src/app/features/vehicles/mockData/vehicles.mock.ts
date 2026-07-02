@@ -98,7 +98,7 @@ export const VEHICLES_MOCK_DTO: VehicleDTO[] = [
     fuel_type: 'gasolina',
     transmission: 'automatico',
     images: [
-      'https://images.unsplash.com/photo-1623860840536-a3dcca59942a?auto=format&fit=crop&q=80&w=800'
+      'car3.jpg'
     ],
     featured: true,
     sold: false,
@@ -140,7 +140,7 @@ export const VEHICLES_MOCK_DTO: VehicleDTO[] = [
     fuel_type: 'electrico',
     transmission: 'automatico',
     images: [
-      'https://images.unsplash.com/photo-1605558158382-95993a8e9725?auto=format&fit=crop&q=80&w=800'
+      'car1.png'
     ],
     featured: false,
     sold: false,
@@ -202,7 +202,7 @@ export const VEHICLES_MOCK_DTO: VehicleDTO[] = [
     fuel_type: 'gasolina',
     transmission: 'manual',
     images: [
-      'https://images.unsplash.com/photo-1605558158382-95993a8e9725?auto=format&fit=crop&q=80&w=800'
+      'car2.png'
     ],
     featured: false,
     sold: false,

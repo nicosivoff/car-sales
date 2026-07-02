@@ -25,7 +25,7 @@ import { VehicleService } from '../../features/vehicles/services/vehicle.service
             [ngClass]="isTransparent() ? 'text-white' : 'text-brand-primary'"
             class="text-xl font-bold tracking-wider font-display uppercase hover:opacity-90 transition-colors cursor-pointer absolute left-6"
           >
-            LUXEMOTORS
+            LEÓN AUTOMOTORES
           </a>
 
           <!-- Centered Navigation Links -->
@@ -76,7 +76,7 @@ import { VehicleService } from '../../features/vehicles/services/vehicle.service
             <!-- Contact Icons (desktop only) -->
             <div class="hidden md:flex items-center gap-4">
               <a 
-                href="https://wa.me/5491100000000" 
+                href="https://wa.me/5493874871657" 
                 target="_blank" 
                 [ngClass]="isTransparent() ? 'text-white hover:text-emerald-400' : 'text-brand-text-muted hover:text-emerald-500'" 
                 class="transition-colors flex items-center justify-center"
@@ -86,7 +86,7 @@ import { VehicleService } from '../../features/vehicles/services/vehicle.service
                 </svg>
               </a>
               <a 
-                href="mailto:contacto@luxemotors.com" 
+                href="mailto:leonautomotores@outlook.com" 
                 [ngClass]="isTransparent() ? 'text-white hover:text-blue-400' : 'text-brand-text-muted hover:text-brand-primary'" 
                 class="transition-colors flex items-center justify-center"
               >
@@ -151,14 +151,14 @@ import { VehicleService } from '../../features/vehicles/services/vehicle.service
       <footer class="bg-brand-dark text-slate-400 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div class="text-center sm:text-left">
-            <span class="font-display font-bold text-base text-white tracking-wider uppercase">LUXEMOTORS</span>
+            <span class="font-display font-bold text-base text-white tracking-wider uppercase">LEÓN AUTOMOTORES</span>
             <div class="mt-1 text-[10px] text-slate-500">
-              &copy; {{ currentYear }} LUXEMOTORS. Todos los derechos reservados.
+              &copy; {{ currentYear }} LEÓN AUTOMOTORES. Todos los derechos reservados.
             </div>
           </div>
           <div class="flex items-center gap-4 justify-center">
             <a 
-              href="https://wa.me/5491100000000" 
+              href="https://wa.me/5493874871657" 
               target="_blank" 
               class="text-slate-400 hover:text-emerald-400 transition-colors flex items-center justify-center"
             >
@@ -167,7 +167,7 @@ import { VehicleService } from '../../features/vehicles/services/vehicle.service
               </svg>
             </a>
             <a 
-              href="mailto:contacto@luxemotors.com" 
+              href="mailto:leonautomotores@outlook.com" 
               class="text-slate-400 hover:text-blue-400 transition-colors flex items-center justify-center"
             >
               <span class="material-symbols-outlined text-[20px]">mail</span>

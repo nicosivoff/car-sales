@@ -21,7 +21,7 @@ import { Vehicle } from '../../../vehicles/models/vehicle.model';
             </a>
           </div>
           <div class="flex items-center gap-2">
-            <span class="font-display font-bold text-base text-brand-dark tracking-wider uppercase">LUXEMOTORS <span class="text-xs text-brand-primary font-bold lowercase bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-md ml-1">admin</span></span>
+            <span class="font-display font-bold text-base text-brand-dark tracking-wider uppercase">LEÓN AUTOMOTORES <span class="text-xs text-brand-primary font-bold lowercase bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-md ml-1">admin</span></span>
           </div>
         </nav>
       </header>

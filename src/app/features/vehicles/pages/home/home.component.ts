@@ -334,7 +334,7 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
           <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-12">
               <span class="text-xs font-bold uppercase tracking-widest text-brand-primary bg-blue-50 border border-brand-primary/10 px-3 py-1 rounded-full mb-3 inline-block">Calidad Garantizada</span>
-              <h2 class="font-display font-extrabold text-2xl text-brand-dark mb-2">El Estándar LUXEMOTORS</h2>
+              <h2 class="font-display font-extrabold text-2xl text-brand-dark mb-2">El Estándar LEÓN AUTOMOTORES</h2>
               <p class="text-xs text-brand-text-muted">Redefiniendo la compra de vehículos con transparencia y confianza.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -384,39 +384,39 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
                 <div class="space-y-4">
                   <!-- Dirección -->
                   <a 
-                    href="https://maps.google.com/?q=Av.+Bicentenario+de+la+Batalla+de+Salta+1234,+Salta,+Argentina" 
+                    href="https://maps.google.com/?q=Sarmiento+490,+Salta,+Argentina,+4400" 
                     target="_blank"
                     class="flex gap-3 items-start group/item cursor-pointer hover:text-brand-primary transition-colors"
                   >
                     <span class="material-symbols-outlined text-[20px] text-brand-primary p-2 bg-blue-50 rounded-lg group-hover/item:bg-brand-primary group-hover/item:text-white transition-all">location_on</span>
                     <div>
                       <h4 class="text-xs font-bold text-brand-dark">Ubicación</h4>
-                      <p class="text-xs text-brand-text-muted mt-0.5 group-hover/item:text-brand-primary transition-colors">Av. Bicentenario de la Batalla de Salta 1234, Salta, Argentina</p>
+                      <p class="text-xs text-brand-text-muted mt-0.5 group-hover/item:text-brand-primary transition-colors">Sarmiento 490 , Salta, Argentina, 4400</p>
                     </div>
                   </a>
 
                   <!-- Teléfono -->
                   <a 
-                    href="https://wa.me/5493871234567" 
+                    href="https://wa.me/5493874871657" 
                     target="_blank"
                     class="flex gap-3 items-start group/item cursor-pointer hover:text-brand-primary transition-colors"
                   >
                     <span class="material-symbols-outlined text-[20px] text-brand-primary p-2 bg-blue-50 rounded-lg group-hover/item:bg-brand-primary group-hover/item:text-white transition-all">phone</span>
                     <div>
                       <h4 class="text-xs font-bold text-brand-dark">Teléfono de Ventas</h4>
-                      <p class="text-xs text-brand-text-muted mt-0.5 group-hover/item:text-brand-primary transition-colors">+54 9 387 123-4567</p>
+                      <p class="text-xs text-brand-text-muted mt-0.5 group-hover/item:text-brand-primary transition-colors">+54 387 4871657</p>
                     </div>
                   </a>
 
                   <!-- Email -->
                   <a 
-                    href="mailto:contacto@luxemotors.com" 
+                    href="mailto:leonautomotores@outlook.com" 
                     class="flex gap-3 items-start group/item cursor-pointer hover:text-brand-primary transition-colors"
                   >
                     <span class="material-symbols-outlined text-[20px] text-brand-primary p-2 bg-blue-50 rounded-lg group-hover/item:bg-brand-primary group-hover/item:text-white transition-all">mail</span>
                     <div>
                       <h4 class="text-xs font-bold text-brand-dark">Correo Electrónico</h4>
-                      <p class="text-xs text-brand-text-muted mt-0.5 group-hover/item:text-brand-primary transition-colors">contacto&#64;luxemotors.com</p>
+                      <p class="text-xs text-brand-text-muted mt-0.5 group-hover/item:text-brand-primary transition-colors">leonautomotores&#64;outlook.com</p>
                     </div>
                   </a>
 
@@ -441,7 +441,7 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
 
                 <!-- Botón Directo a WhatsApp -->
                 <a 
-                  href="https://wa.me/5493871234567" 
+                  href="https://wa.me/5493874871657" 
                   target="_blank" 
                   class="flex items-center justify-center gap-2 w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-500/20 transition-all active:scale-[0.98] cursor-pointer"
                 >

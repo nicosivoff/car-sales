@@ -230,16 +230,15 @@ type Tab = 'desc' | 'specs' | 'features';
               <!-- Tarjeta de Contacto / Formulario -->
               <div class="card-glass p-6 rounded-2xl">
                 
-                <!-- Info Concesionaria -->
-                <div class="flex items-center gap-4 mb-6">
+                 <div class="flex items-center gap-4 mb-6">
                   <div class="w-12 h-12 bg-blue-50/50 border border-brand-primary/10 rounded-full flex items-center justify-center text-brand-primary font-black text-lg">
-                    LM
+                    LA
                   </div>
                   <div>
-                    <h3 class="font-bold text-sm text-brand-dark">LuxeMotors Central</h3>
+                    <h3 class="font-bold text-sm text-brand-dark">LEÓN AUTOMOTORES</h3>
                     <p class="text-xs text-brand-text-muted flex items-center gap-1 mt-0.5">
                       <span class="material-symbols-outlined text-[14px]">location_on</span>
-                      Av. del Libertador 4200
+                      Sarmiento 490, Salta
                     </p>
                   </div>
                 </div>
@@ -551,7 +550,7 @@ export class DetailComponent {
     if (!carData) return;
 
     const text = `Hola! Estoy interesado en el vehículo ${carData.brand} ${carData.model} (Año ${carData.year}) que vi en su catálogo. ¿Sigue disponible?`;
-    const whatsappUrl = `https://wa.me/5491100000000?text=${encodeURIComponent(text)}`;
+    const whatsappUrl = `https://wa.me/5493874871657?text=${encodeURIComponent(text)}`;
     window.open(whatsappUrl, '_blank');
   }
 

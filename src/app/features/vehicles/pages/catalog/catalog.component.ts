@@ -389,25 +389,25 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
               <h3 class="font-display font-bold text-sm text-brand-dark mb-4">Información de Sucursal</h3>
               <div class="space-y-4">
                 <a 
-                  href="https://maps.google.com/?q=Av.+Bicentenario+1234,+Salta" 
+                  href="https://maps.google.com/?q=Sarmiento+490,+Salta,+Argentina,+4400" 
                   target="_blank"
                   class="flex gap-2.5 items-start group/item cursor-pointer hover:text-brand-primary transition-colors"
                 >
                   <span class="material-symbols-outlined text-[18px] text-brand-primary bg-blue-50 p-1.5 rounded-lg group-hover/item:bg-brand-primary group-hover/item:text-white transition-all">location_on</span>
                   <div>
                     <h4 class="text-[10px] font-bold text-brand-dark">Ubicación</h4>
-                    <p class="text-xs text-brand-text-muted group-hover/item:text-brand-primary transition-colors">Av. Bicentenario 1234, Salta</p>
+                    <p class="text-xs text-brand-text-muted group-hover/item:text-brand-primary transition-colors">Sarmiento 490 , Salta, Argentina, 4400</p>
                   </div>
                 </a>
                 <a 
-                  href="https://wa.me/5493871234567" 
+                  href="https://wa.me/5493874871657" 
                   target="_blank"
                   class="flex gap-2.5 items-start group/item cursor-pointer hover:text-brand-primary transition-colors"
                 >
                   <span class="material-symbols-outlined text-[18px] text-brand-primary bg-blue-50 p-1.5 rounded-lg group-hover/item:bg-brand-primary group-hover/item:text-white transition-all">phone</span>
                   <div>
                     <h4 class="text-[10px] font-bold text-brand-dark">Teléfono</h4>
-                    <p class="text-xs text-brand-text-muted group-hover/item:text-brand-primary transition-colors">+54 9 387 123-4567</p>
+                    <p class="text-xs text-brand-text-muted group-hover/item:text-brand-primary transition-colors">+54 387 4871657</p>
                   </div>
                 </a>
                 <div class="flex gap-2.5 items-start">
@@ -430,7 +430,7 @@ import { DropdownComponent, DropdownOption } from '@shared/components/dropdown/d
             </div>
 
             <a 
-              href="https://wa.me/5493871234567" 
+              href="https://wa.me/5493874871657" 
               target="_blank" 
               class="mt-6 flex items-center justify-center gap-2 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-500/10 transition-all active:scale-[0.98] cursor-pointer"
             >
